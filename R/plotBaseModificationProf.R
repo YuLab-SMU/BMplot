@@ -1,0 +1,394 @@
+##' plot base modification profile
+##'
+##'
+##' @title plotBaseModificationProf
+##' @param df the base modification dataframe
+##' @param motif_color the color for different motifs(CHH,CHG,CG)
+##' @param title the title of the plot, can also be a list of title
+##' @param xlim the specified interval of region, must be the sub-interval of the dmR
+##' @param xlab the x label, can also be a list of x label
+##' @param ylab the y label, can also be a list of y label
+##' @param legend_lab_motif the label of legend for motif
+##' @param legend_lab_coverage the label of legend for coverage
+##' @param switch_facet_label switch the facet label from right to left or not
+##' @param strip_placement strip.placement
+##' @param angle_of_facet_label the angle of facet label, e.g. 0 is horizontal
+##' @param alpha transparency for the depth information line
+##' @param y_ticks_length the length of y-axis ticks
+##' @param x_ticks_length the length of x-axis ticks
+##' @param strip_border add border to the facet label or not
+##' @param facet_label_text_size the size of facet label text
+##' @param axis_title_text_size the size of axis title text
+##' @param title_text_size the size of the title text
+##' @param right_y_axis_text_size the size of the left y axis text,this work when depth information is taken into account
+##' @param left_y_axis_text_size the size of the left y axis text
+##' @param x_axis_text_size the size of x axis text
+##' @param depth_heatmap draw the heatmap of depth information or not
+##' @param nrow the nrow of plotting a list of dmR
+##' @param ncol the ncol of plotting a list of dmR
+##' @param panel_spacing the distance between panels
+##' @return ggplot object
+##' @importFrom aplot plot_list
+##' @export
+plotBaseModificationProf <- function(df,
+                                     motif_color = NULL,
+                                     title = NULL,
+                                     xlim = NULL,
+                                     xlab="Genomic Region(5'->3')",
+                                     ylab="Methylation(%)",
+                                     legend_lab_motif = "Methylation motif",
+                                     legend_lab_coverage = "Coverage",
+                                     switch_facet_label = TRUE,
+                                     strip_placement = "outside",
+                                     angle_of_facet_label = 0,
+                                     alpha = 0.3,
+                                     y_ticks_length = 0.25,
+                                     x_ticks_length = 0.25,
+                                     strip_border = FALSE,
+                                     facet_label_text_size = 12,
+                                     axis_title_text_size = 17,
+                                     title_text_size = 20,
+                                     right_y_axis_text_size = 13,
+                                     left_y_axis_text_size = 13,
+                                     x_axis_text_size = 13,
+                                     depth_heatmap = TRUE,
+                                     nrow = NULL,
+                                     ncol = NULL,
+                                     panel_spacing = 1){
+
+  if(is.null(nrow) && is.null(ncol)){
+    ncol <- 1
+  }
+
+  if(is(df,"list")){
+
+    ## check xlab,ylab and title
+    if(length(xlab) != 1){
+
+      if(length(xlab) != length(df)){
+        stop("please input xlab with correct length...")
+      }
+
+    }else{
+
+      xlab <- rep(xlab, length(df))
+
+    }
+
+    if(length(ylab) != 1){
+
+      if(length(ylab) != length(df)){
+        stop("please input ylab with correct length...")
+      }
+
+    }else{
+
+      ylab <- rep(ylab, length(df))
+
+    }
+
+    if(!is.null(title)){
+
+      if(length(title) != length(df)){
+        stop("please input title with correct length...")
+      }
+
+      temp <- list()
+
+      for (i in seq_len(length(df))) {
+
+        p <- plotBaseModificationProf.internal(df = df[[i]],
+                                               motif_color = motif_color,
+                                               title = title[i],
+                                               xlim = xlim,
+                                               xlab = xlab[i],
+                                               ylab = ylab[i],
+                                               legend_lab_motif = legend_lab_motif,
+                                               legend_lab_coverage = legend_lab_coverage,
+                                               switch_facet_label = switch_facet_label,
+                                               strip_placement = strip_placement,
+                                               angle_of_facet_label = angle_of_facet_label,
+                                               alpha = alpha,
+                                               y_ticks_length = y_ticks_length,
+                                               x_ticks_length = x_ticks_length,
+                                               strip_border = strip_border,
+                                               facet_label_text_size = facet_label_text_size,
+                                               axis_title_text_size = axis_title_text_size,
+                                               title_text_size = title_text_size,
+                                               right_y_axis_text_size = right_y_axis_text_size,
+                                               left_y_axis_text_size = left_y_axis_text_size,
+                                               x_axis_text_size = x_axis_text_size,
+                                               depth_heatmap = depth_heatmap,
+                                               panel_spacing = panel_spacing)
+
+        temp[[i]] <- p
+      }
+
+      p <- plot_list(gglist = temp,
+                     ncol = ncol,
+                     nrow = nrow)
+      return(p)
+
+    }
+
+    temp <- list()
+
+    for (i in seq_len(length(df))) {
+
+      p <- plotBaseModificationProf.internal(df = df[[i]],
+                                             motif_color = motif_color,
+                                             title = title,
+                                             xlim = xlim,
+                                             xlab = xlab[i],
+                                             ylab = ylab[i],
+                                             legend_lab_motif = legend_lab_motif,
+                                             legend_lab_coverage = legend_lab_coverage,
+                                             switch_facet_label = switch_facet_label,
+                                             strip_placement = strip_placement,
+                                             angle_of_facet_label = angle_of_facet_label,
+                                             alpha = alpha,
+                                             y_ticks_length = y_ticks_length,
+                                             x_ticks_length = x_ticks_length,
+                                             strip_border = strip_border,
+                                             facet_label_text_size = facet_label_text_size,
+                                             axis_title_text_size = axis_title_text_size,
+                                             title_text_size = title_text_size,
+                                             right_y_axis_text_size = right_y_axis_text_size,
+                                             left_y_axis_text_size = left_y_axis_text_size,
+                                             x_axis_text_size = x_axis_text_size,
+                                             depth_heatmap = depth_heatmap,
+                                             panel_spacing = panel_spacing)
+
+      temp[[i]] <- p
+    }
+
+
+    p <- plot_list(gglist = temp,
+                   ncol = ncol,
+                   nrow = nrow)
+
+
+  }else{
+    p <- plotBaseModificationProf.internal(df = df,
+                                           motif_color = motif_color,
+                                           title = title,
+                                           xlim = xlim,
+                                           xlab = xlab,
+                                           ylab = ylab,
+                                           legend_lab_motif = legend_lab_motif,
+                                           legend_lab_coverage = legend_lab_coverage,
+                                           switch_facet_label = switch_facet_label,
+                                           strip_placement = strip_placement,
+                                           angle_of_facet_label = angle_of_facet_label,
+                                           alpha = alpha,
+                                           y_ticks_length = y_ticks_length,
+                                           x_ticks_length = x_ticks_length,
+                                           strip_border = strip_border,
+                                           facet_label_text_size = facet_label_text_size,
+                                           axis_title_text_size = axis_title_text_size,
+                                           title_text_size = title_text_size,
+                                           right_y_axis_text_size = right_y_axis_text_size,
+                                           left_y_axis_text_size = left_y_axis_text_size,
+                                           x_axis_text_size = x_axis_text_size,
+                                           depth_heatmap = depth_heatmap,
+                                           panel_spacing = panel_spacing)
+  }
+
+
+  return(p)
+}
+
+
+##' @import ggplot2
+##' @importFrom scales rescale
+plotBaseModificationProf.internal <- function(df,
+                                              motif_color,
+                                              title,
+                                              xlim,
+                                              xlab,
+                                              ylab,
+                                              legend_lab_motif,
+                                              legend_lab_coverage,
+                                              switch_facet_label = TRUE,
+                                              strip_placement = "outside",
+                                              angle_of_facet_label = 0,
+                                              alpha = 0.3,
+                                              y_ticks_length = 0.25,
+                                              x_ticks_length = 0.25,
+                                              strip_border = FALSE,
+                                              facet_label_text_size = 12,
+                                              axis_title_text_size = 17,
+                                              title_text_size = 20,
+                                              right_y_axis_text_size = 13,
+                                              left_y_axis_text_size = 13,
+                                              x_axis_text_size = 13,
+                                              depth_heatmap = TRUE,
+                                              panel_spacing = 1){
+
+  ## extract coordinate information
+  coordinate <- unique(df$coordinate)
+
+  if(!is.null(xlim)){
+
+    ## xlim must be a subinterval of the dmR
+    if(xlim[1]<min(coordinate) || xlim>max(coordinate)){
+      stop('xlim must be a subinterval of the dmR...')
+    }
+    coordinate <- c(xlim[1]:xlim[2])
+    df <- df[df$coordinate %in% coordinate,]
+    cat(">> plotting region from ",paste0(attr(df,"chromosome"),":",xlim[1]),
+        " to ",paste0(attr(df,"chromosome"),":",xlim[2]),"...\t",
+        format(Sys.time(), "%Y-%m-%d %X"), "\n",sep = "")
+
+  }else{
+    cat(">> plotting region from ",paste0(attr(df,"chromosome"),":",coordinate[1]),
+        " to ",paste0(attr(df,"chromosome"),":",coordinate[length(coordinate)]),"...\t",
+        format(Sys.time(), "%Y-%m-%d %X"), "\n",sep = "")
+  }
+
+
+  ## replace the "none" with unique(df$motif)[1] for the convenience of plotting
+  ## every information in "none" item is 0, so there is no effect
+  none_fill_in <- unique(df$motif[df$motif != "none"])[1]
+  df$motif[df$motif == "none"] <- none_fill_in
+
+  ## extract the tiltle information
+  if(is.null(title)){
+    title <- paste0(attr(df,"chromosome"),
+                    ": ",
+                    coordinate[1],
+                    "~",
+                    coordinate[length(coordinate)],
+                    " bp Methylation Profile")
+  }
+
+
+  if(attr(df,"cover_depth")){
+
+    depth_value <- unique(df[df$type=="depth",]$value)
+    depth_value <- depth_value[order(depth_value)]
+
+    positive_strand_temp <- negative_strand_temp <- df[df$type=="depth",]
+    positive_strand_temp$value[positive_strand_temp$strand == "-"] <- 0
+    negative_strand_temp$value[negative_strand_temp$strand == "+"] <- 0
+
+    ## add value to correct the rescale
+    ncol_tmp <- nrow(positive_strand_temp)
+    positive_strand_temp_value <- positive_strand_temp$value
+    negative_strand_temp_value <- negative_strand_temp$value
+    positive_strand_temp_value[ncol_tmp+1] <- negative_strand_temp_value[ncol_tmp+1] <- 0
+    positive_strand_temp_value[ncol_tmp+2] <- negative_strand_temp_value[ncol_tmp+2] <- depth_value[length(depth_value)]
+
+    rescale_positive_strand <- rescale(positive_strand_temp_value,c(0,1))
+    rescale_negative_strand <- rescale(negative_strand_temp_value,c(0,-1))
+
+    rescale_positive_strand <- rescale_positive_strand[1:ncol_tmp]
+    rescale_negative_strand <- rescale_negative_strand[1:ncol_tmp]
+
+    positive_strand_temp$value <- rescale_positive_strand
+    negative_strand_temp$value <- rescale_negative_strand
+
+    ## plot the methylation information
+    p <- ggplot(df)+
+      geom_col(data = df[df$type=="methylation",],mapping = aes(x=coordinate,y=value,fill=motif)) +
+      labs(fill = legend_lab_motif)
+
+    ## plot the cover depth information
+    p <- p +
+      geom_line(data = positive_strand_temp,
+                mapping = aes(x=coordinate,y=value,linetype="read depth information"),
+                color = "#868686FF",alpha=alpha) +
+      geom_line(data = negative_strand_temp,
+                mapping = aes(x=coordinate,y=value,linetype="read depth information"),
+                color = "#868686FF",alpha=alpha) +
+      labs(linetype = legend_lab_coverage)
+
+    ## reorganize the axis
+    p <- p +
+      scale_y_continuous(sec.axis = sec_axis(trans = ~rescale(.,c(-depth_value[length(depth_value)],depth_value[length(depth_value)])),
+                                             name = "Coverage",
+                                             breaks = c(-depth_value[length(depth_value)],
+                                                        0,
+                                                        depth_value[length(depth_value)]),
+                                             labels = c(paste0(depth_value[length(depth_value)]," (negative strand)"),
+                                                        0,
+                                                        paste0(depth_value[length(depth_value)]," (positive strand)")))) +
+      coord_cartesian(ylim=c(-1,1))
+
+  }else{
+    ## plot the methylation information
+    p <- ggplot(df) +
+      geom_col(mapping = aes(x=coordinate,y=value,fill=motif))+
+      labs(fill = legend_lab_motif) +
+      ylim(c(-1,1))
+  }
+
+  ## facet the plot by sample
+  if (switch_facet_label) {
+    p <- p + facet_grid(sample~., switch = "y") + theme_classic() +
+      theme(strip.placement = strip_placement,
+            strip.text.y.left = element_text(angle = angle_of_facet_label,
+                                             color = "black",face = "bold",
+                                             size = facet_label_text_size))
+  }else{
+    p <- p + facet_grid(sample~.) + theme_classic() +
+      theme(strip.text.y = element_text(angle = angle_of_facet_label,
+                                        color = "black",face = "bold",
+                                        size = facet_label_text_size),
+            strip.placement = strip_placement)
+  }
+
+  if(!strip_border){
+    p <- p + theme(strip.background = element_blank())
+  }
+
+  ## design new x-axis
+  p <- p +theme(axis.line.x = element_blank()) +
+    geom_hline(yintercept = 0)
+
+  ## reorganize the x-axis text
+  p <- p +
+    scale_x_continuous(breaks = c(coordinate[1],
+                                  coordinate[floor(length(coordinate)*0.25)],
+                                  coordinate[floor(length(coordinate)*0.5)],
+                                  coordinate[floor(length(coordinate)*0.75)],
+                                  coordinate[length(coordinate)]),
+                       labels = c(paste0(attr(df,"chromosome"),":",coordinate[1]),
+                                  paste0(attr(df,"chromosome"),":",coordinate[floor(length(coordinate)*0.25)]),
+                                  paste0(attr(df,"chromosome"),":",coordinate[floor(length(coordinate)*0.5)]),
+                                  paste0(attr(df,"chromosome"),":",coordinate[floor(length(coordinate)*0.75)]),
+                                  paste0(attr(df,"chromosome"),":",coordinate[length(coordinate)])))
+
+  ## add in label information
+  p <- p + labs(title = title, x = xlab, y = ylab) +
+    theme(plot.title = element_text(hjust = 0.5,size = title_text_size),
+          axis.title = element_text(size = axis_title_text_size,),
+          axis.text.x = element_text(vjust = -1.2),
+          axis.title.x = element_text(vjust = -1.2),
+          axis.title.y.right = element_text(vjust = 5.5))
+
+  ## resize text in x and y axis
+  p <- p +
+    theme(axis.text.y.left = element_text(size = left_y_axis_text_size),
+          axis.text.y.right = element_text(size = right_y_axis_text_size),
+          axis.text.x = element_text(size = x_axis_text_size))
+
+
+  ## if the color is specified
+  if(!is.null(motif_color)){
+    ## check the length of color
+    if(length(motif_color) != length(unique(df$motif))){
+      stop("the length of color and the motif should be equal...")
+    }
+    p <- p + scale_fill_manual(values = motif_color)
+  }
+
+  ## reorganize the ticks length
+  p <- p + theme(axis.ticks.length.y = unit(y_ticks_length, "cm"),
+                 axis.ticks.length.x = unit(x_ticks_length, "cm"),
+                 plot.margin = unit(c(0.5,0.5,0.5,0.5), "cm"),
+                 panel.spacing.y = unit(panel_spacing,"cm"))
+
+  return(p)
+}
+
