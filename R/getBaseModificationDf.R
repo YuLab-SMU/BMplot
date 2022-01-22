@@ -222,7 +222,7 @@ make_Methylation_reference <- function(BSseq,cover_depth){
 }
 
 
-##' @importFrom BSgenome.Hsapiens.UCSC.hg19 Hsapiens
+
 loadBSgenome <- function(BSgenome){
 
   if(!is(BSgenome,"BSgenome")){
@@ -230,10 +230,7 @@ loadBSgenome <- function(BSgenome){
   }
 
   if(is.null(BSgenome)){
-    warning(">> BSgenome is not specified,",
-            " use 'BSgenome.Hsapiens.UCSC.hg19::Hsapiens' by default...")
-
-    BSgenome <- Hsapiens
+    stop(">> please specify BSgenome object")
   }else{
 
     ## get the object from BSgenome
