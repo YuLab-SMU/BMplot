@@ -222,7 +222,6 @@ make_Methylation_reference <- function(BSseq,cover_depth){
 }
 
 
-
 loadBSgenome <- function(BSgenome){
 
   if(!is(BSgenome,"BSgenome")){
@@ -230,7 +229,7 @@ loadBSgenome <- function(BSgenome){
   }
 
   if(is.null(BSgenome)){
-    stop(">> please specify BSgenome object")
+    stop(">> please specify BSgenome object...")
   }else{
 
     ## get the object from BSgenome
