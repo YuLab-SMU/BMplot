@@ -1,12 +1,32 @@
 Package: BMplot
-Title: What the Package Does (One Line, Title Case)
+Type: Packages
+Title: BMplot for Base Modification Visulization
 Version: 0.0.0.9000
 Authors@R: 
-    person("First", "Last", , "first.last@example.com", role = c("aut", "cre"),
-           comment = c(ORCID = "YOUR-ORCID-ID"))
-Description: What the package does (one paragraph).
-License: `use_mit_license()`, `use_gpl3_license()` or friends to pick a
-    license
+    c( person(given = "Ming",           family = "Li",    email = "limiang929@gmail.com",         role = c("aut", "cre")),
+       person(given = "Guangchuang",    family = "Yu",    email = "guangchuangyu@gmail.com",      role = c("ctb", "ths")),
+       person(given = "Qianwen",        family = "Wang",  email = "treywea@gmail.com",            role = c("aut", "ths")))
+      )
+Maintainer: Ming Li <limiang929@gmail.com>
+Description: This package implements functions to visualize the profile of 
+    base modification in both DNA and RNA. 
+License: Artistic-2.0
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.1.2
+Imports: 
+    aplot,
+    Biostrings,
+    bsseq,
+    GenomicRanges,
+    ggplot2,
+    tidyr,
+    utils
+URL: https://github.com/MingLi-929/BMplot
+BugReports: https://github.com/MingLi-929/BMplot/issues
+Suggests: 
+    testthat (>= 3.0.0)
+Config/testthat/edition: 3
+Depends: 
+    R (>= 2.10)
+LazyData: true
