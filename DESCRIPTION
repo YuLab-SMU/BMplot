@@ -6,7 +6,6 @@ Authors@R:
     c( person(given = "Ming",           family = "Li",    email = "limiang929@gmail.com",         role = c("aut", "cre")),
        person(given = "Guangchuang",    family = "Yu",    email = "guangchuangyu@gmail.com",      role = c("ctb", "ths")),
        person(given = "Qianwen",        family = "Wang",  email = "treywea@gmail.com",            role = c("aut", "ths")))
-      )
 Maintainer: Ming Li <limiang929@gmail.com>
 Description: This package implements functions to visualize the profile of 
     base modification in both DNA and RNA. 
