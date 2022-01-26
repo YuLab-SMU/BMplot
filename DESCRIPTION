@@ -1,5 +1,5 @@
 Package: BMplot
-Type: Packages
+Type: Package
 Title: BMplot for Base Modification Visulization
 Version: 0.0.0.9000
 Authors@R: 
@@ -16,14 +16,19 @@ RoxygenNote: 7.1.2
 Imports: 
     aplot,
     Biostrings,
-    bsseq,
+    DSS,
     GenomicRanges,
     ggplot2,
+    IRanges,
+    methods,
+    scales,
     tidyr,
+    tidyselect,
     utils
 URL: https://github.com/MingLi-929/BMplot
 BugReports: https://github.com/MingLi-929/BMplot/issues
 Suggests: 
+    BSgenome.Athaliana.TAIR.TAIR9,
     testthat (>= 3.0.0)
 Config/testthat/edition: 3
 Depends: 

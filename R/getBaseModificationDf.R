@@ -121,7 +121,9 @@ getBaseModificationDf <- function(region,
 
 
 ##' @importFrom tidyr gather
+##' @importFrom tidyselect all_of
 ##' @importFrom GenomicRanges mcols
+##' @importFrom GenomicRanges start
 getBaseModificationDf.internal <- function(region,
                                            BSseq,
                                            BSgenome,
@@ -160,6 +162,9 @@ getBaseModificationDf.internal <- function(region,
   results <- merge(results,coordinate,by = "coordinate",all=T)
   results$motif[is.na(results$motif)] <- "none"
   results[is.na(results)] <- 0
+
+  ## global binding for value
+  value <- NULL
 
   if (cover_depth) {
     depth_content <- names(results)[grep("depth",names(results))]
@@ -221,7 +226,7 @@ make_Methylation_reference <- function(BSseq,cover_depth){
 
 }
 
-
+##' @importFrom methods is
 loadBSgenome <- function(BSgenome){
 
   if(!is(BSgenome,"BSgenome")){
@@ -249,7 +254,13 @@ loadBSgenome <- function(BSgenome){
 
 ##' @importFrom GenomicRanges GRanges
 ##' @importFrom GenomicRanges findOverlaps
+##' @importFrom GenomicRanges strand
+##' @importFrom GenomicRanges strand<-
+##' @importFrom GenomicRanges mcols
+##' @importFrom GenomicRanges mcols<-
+##' @importFrom GenomicRanges start
 ##' @importFrom Biostrings DNAStringSet
+##' @importFrom IRanges IRanges
 detect_strand_and_motif <- function(region,
                                     motif,
                                     BSgenome,
@@ -370,6 +381,8 @@ detect_strand_and_motif <- function(region,
 
 
 ##' create regex patterns in positive strand
+##'
+##' @param motif the motif(e.g C:CG/CH, A:GAGG/AGG) of the base modification
 create_regex_patterns_positive <- function(motif){
 
   ## split the motif
@@ -459,6 +472,8 @@ create_regex_patterns_positive <- function(motif){
 
 
 ##' create regex patterns in negative strand
+##'
+##' @param motif the motif(e.g C:CG/CH, A:GAGG/AGG) of the base modification
 create_regex_patterns_negative <- function(motif){
 
   ## split the motif

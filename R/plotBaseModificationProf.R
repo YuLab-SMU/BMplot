@@ -29,6 +29,7 @@
 ##' @param panel_spacing the distance between panels
 ##' @return ggplot object
 ##' @importFrom aplot plot_list
+##' @importFrom methods is
 ##' @export
 plotBaseModificationProf <- function(df,
                                      motif_color = NULL,
@@ -262,6 +263,9 @@ plotBaseModificationProf.internal <- function(df,
                     " bp Methylation Profile")
   }
 
+
+  ## global binding for value and motif
+  value <- motif <- NULL
 
   if(attr(df,"cover_depth")){
 

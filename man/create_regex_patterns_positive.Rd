@@ -6,6 +6,9 @@
 \usage{
 create_regex_patterns_positive(motif)
 }
+\arguments{
+\item{motif}{the motif(e.g C:CG/CH, A:GAGG/AGG) of the base modification}
+}
 \description{
 create regex patterns in positive strand
 }
