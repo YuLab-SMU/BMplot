@@ -580,3 +580,9 @@ create_regex_patterns_negative <- function(motif){
 ##'
 ##' @export
 DSS::makeBSseqData
+
+
+##' @importFrom bsseq BSseq
+##'
+##' @export
+bsseq::BSseq
