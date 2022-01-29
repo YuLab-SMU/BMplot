@@ -5,7 +5,7 @@
 \alias{simulated_BSobj}
 \title{Simulated arabidopsis thaliana BSseq object created by DSS}
 \format{
-An object of class \code{BSseq} with 521 rows and 2 columns.
+An object of class \code{BSseq} with 523 rows and 2 columns.
 }
 \usage{
 simulated_BSobj

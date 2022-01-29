@@ -16,6 +16,7 @@ RoxygenNote: 7.1.2
 Imports: 
     aplot,
     Biostrings,
+    bsseq,
     DSS,
     GenomicRanges,
     ggplot2,
