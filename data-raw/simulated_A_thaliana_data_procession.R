@@ -26,6 +26,6 @@ allDat <- list(normal,test)
 sn <- c("normal","test")
 library(DSS)
 simulated_BSobj <- makeBSseqData(allDat,sn)
-simulated_dmR <- data.frame(chr="Chr5",start=110000,end=112000)
+simulated_dmR <- data.frame(chr="Chr5",start=10000,end=12000)
 
-usethis::use_data(simulated_BSobj,simulated_dmR)
+usethis::use_data(simulated_BSobj,simulated_dmR,overwrite = T)
