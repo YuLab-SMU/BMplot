@@ -15,5 +15,5 @@ You can install the development version of BMplot from
 
 ``` r
 # install.packages("devtools")
-devtools::install_github("MingLi-929/BMplot")
+devtools::install_github("YuLab-SMU/BMplot")
 ```
