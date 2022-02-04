@@ -22,6 +22,10 @@ categories, including `Antibody enrichment techniques` for base
 fragments and `Single-base resolution techniques` for single base.
 BMplot is designed to visualize the `Single-base resolution techniques`.
 
+With the data created by the methods mentioned above, BMplot can map the
+data into the sequence data stored in the set of BSgenome packages and
+visualize it with great concern to the `strand` and `motif` information.
+
 ## Installation
 
 You can install the development version of BMplot from
