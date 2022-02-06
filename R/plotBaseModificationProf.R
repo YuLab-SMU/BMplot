@@ -316,15 +316,18 @@ plotBaseModificationProf.internal <- function(df,
                                                         depth_value[length(depth_value)]),
                                              labels = c(paste0(depth_value[length(depth_value)]," (negative strand)"),
                                                         0,
-                                                        paste0(depth_value[length(depth_value)]," (positive strand)")))) +
-      coord_cartesian(ylim=c(-1,1))
+                                                        paste0(depth_value[length(depth_value)]," (positive strand)"))),
+                         breaks = c(-1, -0.5, 0, 0.5, 1),
+                         labels = c(1, 0.5, 0, 0.5, 1)) +
+    coord_cartesian(ylim = c(-1,1))
 
   }else{
     ## plot the methylation information
     p <- ggplot(df) +
       geom_col(mapping = aes(x=coordinate,y=value,fill=motif))+
       labs(fill = legend_lab_motif) +
-      ylim(c(-1,1))
+      suppressMessages(scale_y_continuous(breaks = c(-1, -0.5, 0, 0.5, 1),
+                                          labels = c(1, 0.5, 0, 0.5, 1)))
   }
 
   ## facet the plot by sample

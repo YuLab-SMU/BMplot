@@ -12,7 +12,7 @@ This package is designed for visualizing base modification
 \tabular{ll}{
 Package: \tab BMplot\cr
 Type: \tab Package\cr
-Version: \tab 0.1.0\cr
+Version: \tab 0.2.0\cr
 Date: \tab 23-01-2022\cr
 License: \tab Artistic-2.0\cr }
 }
