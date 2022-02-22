@@ -22,7 +22,9 @@ Imports:
     ggplot2,
     IRanges,
     methods,
+    S4Vectors,
     scales,
+    SummarizedExperiment,
     tidyr,
     tidyselect,
     utils
