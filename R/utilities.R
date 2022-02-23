@@ -1,14 +1,14 @@
-make_Methylation_reference <- function(BSseq,cover_depth){
+make_Methylation_reference <- function(input,cover_depth){
 
   ## make the methylation reference from bsseq object
-  methylation_reference <- BSseq@rowRanges
+  methylation_reference <- input@rowRanges
 
   ## add the methylation situation to methylation_reference
-  for (i in BSseq@colData@rownames) {
-    methylation_M <- BSseq@assays@data@listData[["M"]][,i]
+  for (i in input@colData@rownames) {
+    methylation_M <- input@assays@data@listData[["M"]][,i]
 
     ## fill the 0 in Cov with 1
-    methylation_cov <- BSseq@assays@data@listData[["Cov"]][,i]
+    methylation_cov <- input@assays@data@listData[["Cov"]][,i]
 
     if (cover_depth) {
       command <- paste0("mcols(methylation_reference)$",
@@ -18,7 +18,7 @@ make_Methylation_reference <- function(BSseq,cover_depth){
     }
 
 
-    methylation_cov[BSseq@assays@data@listData[["Cov"]][,i] == 0] <- 1
+    methylation_cov[input@assays@data@listData[["Cov"]][,i] == 0] <- 1
 
     ## the situation of methylation is calculated by M/cov
     methylation <- round(methylation_M/methylation_cov,3)
@@ -75,7 +75,7 @@ detect_strand_and_motif <- function(region,
                                     BSgenome,
                                     strand,
                                     methylation_reference,
-                                    BSseq,
+                                    input,
                                     base,
                                     position_bias){
 
@@ -177,7 +177,7 @@ detect_strand_and_motif <- function(region,
 
   ## flip the methylation according to strand
   if(strand){
-    colnames <- paste0(BSseq@colData@rownames, "_methylation")
+    colnames <- paste0(input@colData@rownames, "_methylation")
     index <- which(as.character(strand(dmR_melth)) == "-")
 
     for (i in colnames) {
@@ -395,3 +395,5 @@ DSS::makeBSseqData
 ##'
 ##' @export
 bsseq::BSseq
+
+

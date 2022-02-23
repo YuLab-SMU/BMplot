@@ -1,11 +1,11 @@
 ##' get the information of base modification
 ##'
 ##'
-##' This function retrieve the information of each base.Then organized it to dataframe.
-##' Base modification includes modification in DNA and RNA.
+##' This function retrieve the information of each base, requiring BSseq object as input.
+##'    Then organized it to dataframe.
 ##'
 ##' @param region base modification region in the form of dataframe, having columns of "chr","start" and "end"
-##' @param BSseq BSseq objects
+##' @param input the input data stored in BSseq objects or BSseqExtra objects
 ##' @param BSgenome genome reference
 ##' @param strand distinguish strand information or not
 ##' @param cover_depth take the depth of cover into account or not
@@ -14,14 +14,14 @@
 ##' @param position_bias 1-base bias. e.g position_bias = 1("C" in "CHH"), position_bias = 2("A" in "GAGG")
 ##' @return dataframe
 ##' @export
-getBaseModificationDf <- function(region,
-                                  BSseq,
-                                  BSgenome,
-                                  strand = TRUE,
-                                  cover_depth=TRUE,
-                                  base = NULL,
-                                  motif = NULL,
-                                  position_bias = NULL){
+getBaseModificationDf.BSseq <- function(region,
+                                        input,
+                                        BSgenome,
+                                        strand = TRUE,
+                                        cover_depth=TRUE,
+                                        base = NULL,
+                                        motif = NULL,
+                                        position_bias = NULL){
 
   list_flag <- FALSE
   if(nrow(region) != 1){
@@ -95,25 +95,25 @@ getBaseModificationDf <- function(region,
 
     df <- list()
     for (i in seq_len(nrow(region))) {
-      df[[i]] <- getBaseModificationDf.internal(region = region[i,],
-                                                BSseq = BSseq,
-                                                BSgenome = BSgenome,
-                                                strand = strand,
-                                                cover_depth = cover_depth,
-                                                motif = motif,
-                                                base = base,
-                                                position_bias = position_bias)
+      df[[i]] <- getBaseModificationDf.BSseq.internal(region = region[i,],
+                                                      input = input,
+                                                      BSgenome = BSgenome,
+                                                      strand = strand,
+                                                      cover_depth = cover_depth,
+                                                      motif = motif,
+                                                      base = base,
+                                                      position_bias = position_bias)
     }
 
   }else{
-    df <- getBaseModificationDf.internal(region = region,
-                                         BSseq = BSseq,
-                                         BSgenome = BSgenome,
-                                         strand = strand,
-                                         cover_depth = cover_depth,
-                                         motif = motif,
-                                         base = base,
-                                         position_bias = position_bias)
+    df <- getBaseModificationDf.BSseq.internal(region = region,
+                                               input = input,
+                                               BSgenome = BSgenome,
+                                               strand = strand,
+                                               cover_depth = cover_depth,
+                                               motif = motif,
+                                               base = base,
+                                               position_bias = position_bias)
   }
 
   return(df)
@@ -124,21 +124,21 @@ getBaseModificationDf <- function(region,
 ##' @importFrom tidyselect all_of
 ##' @importFrom GenomicRanges mcols
 ##' @importFrom GenomicRanges start
-getBaseModificationDf.internal <- function(region,
-                                           BSseq,
-                                           BSgenome,
-                                           strand,
-                                           cover_depth,
-                                           motif,
-                                           base,
-                                           position_bias){
+getBaseModificationDf.BSseq.internal <- function(region,
+                                                 input,
+                                                 BSgenome,
+                                                 strand,
+                                                 cover_depth,
+                                                 motif,
+                                                 base,
+                                                 position_bias){
 
 
   ## load the reference of BSgenome
   BSgenome <- loadBSgenome(BSgenome)
 
-  ## make the methylation from bsseq object
-  methylation_reference <- make_Methylation_reference(BSseq,cover_depth)
+  ## make the methylation from input object
+  methylation_reference <- make_Methylation_reference(input,cover_depth)
 
   ## extract methylation information for region object
   dmR_melth <- detect_strand_and_motif(region = region,
@@ -146,7 +146,7 @@ getBaseModificationDf.internal <- function(region,
                                        BSgenome = BSgenome,
                                        strand = strand,
                                        methylation_reference = methylation_reference,
-                                       BSseq = BSseq,
+                                       input = input,
                                        base = base,
                                        position_bias = position_bias)
 

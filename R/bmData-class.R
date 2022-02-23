@@ -1,28 +1,28 @@
-#' Constructor for BSseqExtra objects
-#'
-#' This is constructor fo BSseqExtra objects.
-#'
-#' @param value1 the first value to be stored, a matrix-like object
-#' @param value2 the second value to be stored, a matrix-like object
-#' @param pos A vector of locations
-#' @param chr A vector of chromosomes
-#' @param gr An object of type \linkS4class{GRanges}
-#' @param sampleNames A vector of sample names
-#' @param valueNames the name of value1 or value2 or both. The order maps to the value.
-#' @param ... other parameters from \code{\link[bsseq]{BSseq}}
-#' @importFrom bsseq BSseq
-#' @importFrom bsseq pData
-#' @importFrom SummarizedExperiment assays<-
-#' @importFrom SummarizedExperiment assays
-#' @importFrom SummarizedExperiment SummarizedExperiment
-#' @importFrom GenomicRanges granges
-#' @importFrom methods new
-#' @importFrom S4Vectors SimpleList
-#' @export
-BSseqExtra <- function(value1 = NULL, value2 = NULL,
-                       pos = NULL, chr = NULL, gr = NULL,
-                       sampleNames = NULL, valueNames = NULL,
-                       ...){
+##' Constructor for bmData objects
+##'
+##' This is constructor fo bmData objects.
+##'
+##' @param value1 the first value to be stored, a matrix-like object
+##' @param value2 the second value to be stored, a matrix-like object
+##' @param pos A vector of locations
+##' @param chr A vector of chromosomes
+##' @param gr An object of type \linkS4class{GRanges}
+##' @param sampleNames A vector of sample names
+##' @param valueNames the name of value1 or value2 or both. The order maps to the value.
+##' @param ... other parameters from \code{\link[bsseq]{BSseq}}
+##' @importFrom bsseq BSseq
+##' @importFrom bsseq pData
+##' @importFrom SummarizedExperiment assays<-
+##' @importFrom SummarizedExperiment assays
+##' @importFrom SummarizedExperiment SummarizedExperiment
+##' @importFrom GenomicRanges granges
+##' @importFrom methods new
+##' @importFrom S4Vectors SimpleList
+##' @export
+bmData <- function(value1 = NULL, value2 = NULL,
+                   pos = NULL, chr = NULL, gr = NULL,
+                   sampleNames = NULL, valueNames = NULL,
+                   ...){
 
   ## check value1 and value2
   if(is.null(value1) && is.null(value2)){
@@ -148,6 +148,6 @@ BSseqExtra <- function(value1 = NULL, value2 = NULL,
                                  rowRanges = granges(tmp_bsseq),
                                  colData = pData(tmp_bsseq))
 
-  return(new("BSseqExtra", new_se))
+  return(new("bmData", new_se))
 
 }
