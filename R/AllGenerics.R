@@ -19,3 +19,16 @@ setGeneric("getBaseModificationDf",
              standardGeneric("getBaseModificationDf")
 
            })
+
+##' makebmDataFromData method generics
+##'
+##'
+##' @docType methods
+##' @name makebmDataFromData
+##' @rdname makebmDataFromData-methods
+##' @importFrom methods setGeneric
+##' @export
+setGeneric("makebmDataFromData", function(data,
+                                          sampleNames=NULL){
+  standardGeneric("makebmDataFromData")
+})

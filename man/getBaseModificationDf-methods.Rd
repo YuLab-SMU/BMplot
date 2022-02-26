@@ -6,6 +6,8 @@
 \alias{getBaseModificationDf,ANY,BSseq-method}
 \alias{getBaseModificationDf,}
 \alias{BSseq-methods}
+\alias{getBaseModificationDf,ANY,bmData-method}
+\alias{bmData-methods}
 \title{getBaseModificationDf methods generics}
 \usage{
 getBaseModificationDf(
@@ -30,6 +32,17 @@ getBaseModificationDf(
   cover_depth = TRUE,
   ...
 )
+
+\S4method{getBaseModificationDf}{ANY,bmData}(
+  region,
+  input,
+  BSgenome,
+  strand = TRUE,
+  base = NULL,
+  motif = NULL,
+  position_bias = NULL,
+  ...
+)
 }
 \arguments{
 \item{region}{base modification region in the form of dataframe, having columns of "chr","start" and "end"}
@@ -52,7 +65,11 @@ getBaseModificationDf(
 }
 \value{
 dataframe
+
+dataframe
 }
 \description{
 getBaseModificationDf method for \linkS4class{BSseq}
+
+getBaseModificationDf method for \linkS4class{bmData}
 }

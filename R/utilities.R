@@ -397,3 +397,57 @@ DSS::makeBSseqData
 bsseq::BSseq
 
 
+.check_valueNames <- function(valueNames, n0){
+
+  if(is.null(valueNames)){
+    valueNames <- paste0("value",1:n0)
+  }
+
+  ## check the coordination of valueNames and value1/2
+  if (length(valueNames) != n0) {
+    stop("ValueNames do not match the value...")
+  }
+
+}
+
+
+.check_and_make_sampleNames <- function(data,sampleNames){
+
+  n0 <- length(data)
+  if(!is.null(names(data)) && !any(is.na(names(data)))){
+    return(names(data))
+  }
+
+  if(is.null(sampleNames)){
+    sampleNames <- paste("sample", 1:n0, sep="")
+    return(sampleNames)
+  }
+
+  if(length(data) != length(sampleNames)){
+    stop("sampleNames should have equal length with data...")
+  }
+
+  return(sampleNames)
+
+}
+
+
+.check_variables_names <- function(data){
+
+  variables_names <- colnames(data[[1]])
+
+  tmp <- unlist(lapply(data, function(x){
+    if(!identical(variables_names,colnames(x))){
+      return(TRUE)
+    }
+
+    return(FALSE)
+  }))
+
+  if(any(tmp)){
+    return(FALSE)
+  }else{
+    return(TRUE)
+  }
+
+}

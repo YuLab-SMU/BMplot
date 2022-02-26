@@ -24,45 +24,27 @@ bmData <- function(value1 = NULL, value2 = NULL,
                    sampleNames = NULL, valueNames = NULL,
                    ...){
 
-  ## check value1 and value2
-  if(is.null(value1) && is.null(value2)){
+  ## get the non null number
+  n0 <- sum(vapply(list(value1,value2),
+                   function(x) !is.null(x),
+                   FUN.VALUE = logical(1)))
 
-    ## value1 and value2 can not be NULL simultaneously
-    stop("Need an input value...")
+  ## value1 and value2 can not be NULL simultaneously
+  if(n0 == 0) stop("Need an input value...")
 
-  }
+  ## check valueNames
+  valueNames <- .check_valueNames(valueNames, n0)
 
-  ## check the coordination of valueNames and value1/2
-  if(is.null(value1) && !is.null(value2)){
+  ## for the sake of convenience, we assign values for null
+  if(n0 == 1){
 
-    if (length(valueNames) != 1) {
-      stop("ValueNames do not match the value...")
-    }
+    if(is.null(value1)) value1 <- value2
 
-    value1 <- value2
+    if(is.null(value2)) value2<- value1
+
     valueNames <- rep(valueNames,2)
-
   }
 
-
-  if(is.null(value2) && !is.null(value1)){
-
-    if (length(valueNames) != 1) {
-      stop("ValueNames do not match the value...")
-    }
-
-    value2<- value1
-    valueNames <- rep(valueNames,2)
-
-  }
-
-  if(!is.null(value1) && !is.null(value2)){
-
-    if(length(valueNames) != 2){
-      stop("ValueNames do not match the value...")
-    }
-
-  }
 
   ## This parameter check comes from BSseq()
   ## https://github.com/hansenlab/bsseq/blob/master/R/BSseq-class.R
@@ -119,22 +101,22 @@ bmData <- function(value1 = NULL, value2 = NULL,
   Cov <- matrix(c(rep(3,length(gr))),nrow = length(gr))
 
   tmp_bsseq <- BSseq(M = M, Cov = Cov,
-                     gr = gr, sampleNames = NULL,
+                     gr = gr, sampleNames = sampleNames,
                      ...)
 
   ## Now we extract the assays from BSseq object and
   ## substitute it with the value we input.
-  if(identical(value1,value2)){
+  if(n0 == 1){
 
-    command <- paste0("assays(tmp_bsseq) <- SimpleList(",
+    command <- paste0("assays(tmp_bsseq,withDimnames=FALSE) <- SimpleList(",
                       valueNames[1],
-                      "=value1)")
+                      "=value1,withDimnames=FALSE)")
 
     eval(parse(text = command))
 
   }else{
 
-    command <- paste0("assays(tmp_bsseq) <- SimpleList(",
+    command <- paste0("assays(tmp_bsseq,withDimnames=FALSE) <- SimpleList(",
                       valueNames[1],
                       "= value1, ",
                       valueNames[2],
