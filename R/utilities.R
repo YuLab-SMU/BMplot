@@ -408,6 +408,8 @@ bsseq::BSseq
     stop("ValueNames do not match the value...")
   }
 
+  return(valueNames)
+
 }
 
 
@@ -451,3 +453,14 @@ bsseq::BSseq
   }
 
 }
+
+
+##' @importFrom SummarizedExperiment assays
+##'
+##' @export
+SummarizedExperiment::assays
+
+##' @importFrom SummarizedExperiment assay
+##'
+##' @export
+SummarizedExperiment::assay

@@ -97,8 +97,8 @@ bmData <- function(value1 = NULL, value2 = NULL,
 
   ## In order to use BSseq() as an constructor, we make vitual M and Cov
   ## to pass the BSseq() check
-  M <- matrix(c(rep(1,length(gr))),nrow = length(gr))
-  Cov <- matrix(c(rep(3,length(gr))),nrow = length(gr))
+  M <- matrix(c(rep(1,nrow(value1)*ncol(value1))),nrow = nrow(value1))
+  Cov <- matrix(c(rep(3,nrow(value1)*ncol(value1))),nrow = nrow(value1))
 
   tmp_bsseq <- BSseq(M = M, Cov = Cov,
                      gr = gr, sampleNames = sampleNames,

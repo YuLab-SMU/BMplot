@@ -5,6 +5,8 @@
 \alias{reexports}
 \alias{makeBSseqData}
 \alias{BSseq}
+\alias{assays}
+\alias{assay}
 \title{Objects exported from other packages}
 \keyword{internal}
 \description{
@@ -15,5 +17,7 @@ below to see their documentation.
   \item{bsseq}{\code{\link[bsseq]{BSseq}}}
 
   \item{DSS}{\code{\link[DSS]{makeBSseqData}}}
+
+  \item{SummarizedExperiment}{\code{\link[SummarizedExperiment:SummarizedExperiment-class]{assay}}, \code{\link[SummarizedExperiment:SummarizedExperiment-class]{assays}}}
 }}
 
