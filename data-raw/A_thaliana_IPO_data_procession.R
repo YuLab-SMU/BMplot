@@ -27,7 +27,7 @@ allDat <- lapply(list.files('./GSE62206/',pattern='*txt.gz')[c(1:2)],function(f)
   tmp=fread(file.path('GSE62206/',f))
   tmp$all <- as.numeric(tmp$V5)+as.numeric(tmp$V4)
   tmp$V4 <- as.numeric(tmp$V4)
-  tmp <- tmp[,c(1,2,8,4)]
+  tmp <- tmp[c(20000000:20040000),c(1,2,8,4)]
   colnames(tmp)=c('chr', 'pos' ,'N' ,'X')
   return(tmp)
 })
@@ -76,3 +76,9 @@ write.table(allDatbed[[2]],file = "GSM1522202_ddm1_seedlings_simulated.bed",
 system("gzip ./GSM1522202_ddm1_seedlings_simulated.bed")
 
 ## And put the two bed files into folder "GSE62206_simulated_bed"
+
+## now make the bmData object
+A_thaliana_bmData <- makebmDataFromFiles(name = "GSE62206_simulated",
+                                         variablesNames = c("IPD","IPD_ratio"),
+                                         sampleNames = c("GSM1522201_WT",
+                                                         "GSM1522202_ddm1"))

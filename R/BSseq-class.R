@@ -6,7 +6,6 @@
 ##' @param region base modification region in the form of dataframe, having columns of "chr","start" and "end"
 ##' @param input the input data stored in BSseq objects or BSseqExtra objects
 ##' @param BSgenome genome reference
-##' @param strand distinguish strand information or not
 ##' @param base one of A/T/G/C/U
 ##' @param motif the motif(e.g C:CG/CH, A:GAGG/AGG) of the base modification
 ##' @param position_bias 1-base bias. e.g position_bias = 1("C" in "CHH"), position_bias = 2("A" in "GAGG")
@@ -20,7 +19,6 @@ setMethod("getBaseModificationDf",signature(input = "BSseq"),
           function(region,
                    input,
                    BSgenome,
-                   strand = TRUE,
                    base = NULL,
                    motif = NULL,
                    position_bias = NULL,
@@ -30,7 +28,6 @@ setMethod("getBaseModificationDf",signature(input = "BSseq"),
             getBaseModificationDf.BSseq(region = region,
                                         input = input,
                                         BSgenome = BSgenome,
-                                        strand = strand,
                                         base = base,
                                         motif = motif,
                                         position_bias = position_bias,
@@ -39,32 +36,3 @@ setMethod("getBaseModificationDf",signature(input = "BSseq"),
           })
 
 
-##' getBaseModificationDf method for \linkS4class{bmData}
-##'
-##' @docType methods
-##' @rdname getBaseModificationDf-methods
-##' @title getBaseModificationDf method
-##' @param region base modification region in the form of dataframe, having columns of "chr","start" and "end"
-##' @param input the input data stored in BSseq objects or BSseqExtra objects
-##' @param BSgenome genome reference
-##' @param strand distinguish strand information or not
-##' @param base one of A/T/G/C/U
-##' @param motif the motif(e.g C:CG/CH, A:GAGG/AGG) of the base modification
-##' @param position_bias 1-base bias. e.g position_bias = 1("C" in "CHH"), position_bias = 2("A" in "GAGG")
-##' @param ... other parameters
-##' @aliases getBaseModificationDf, bmData-methods
-##' @return dataframe
-##' @importFrom methods setMethod
-##' @exportMethod getBaseModificationDf
-setMethod("getBaseModificationDf",signature(input = "bmData"),
-          function(region,
-                   input,
-                   BSgenome,
-                   strand = TRUE,
-                   base = NULL,
-                   motif = NULL,
-                   position_bias = NULL,
-                   ...){
-
-
-          })

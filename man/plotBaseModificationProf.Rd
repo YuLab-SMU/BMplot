@@ -10,9 +10,11 @@ plotBaseModificationProf(
   title = NULL,
   xlim = NULL,
   xlab = "Genomic Region(5'->3')",
-  ylab = "Methylation(\%)",
-  legend_lab_motif = "Methylation motif",
-  legend_lab_coverage = "Coverage",
+  ylab = NULL,
+  second_ylab = NULL,
+  switch_y_value = FALSE,
+  legend_lab_motif = NULL,
+  legend_lab_value2 = NULL,
   switch_facet_label = TRUE,
   strip_placement = "outside",
   angle_of_facet_label = 0,
@@ -45,9 +47,13 @@ plotBaseModificationProf(
 
 \item{ylab}{the y label, can also be a list of y label}
 
+\item{second_ylab}{the ylab for second y-axis}
+
+\item{switch_y_value}{switch the value from left y-axis to right y-axis}
+
 \item{legend_lab_motif}{the label of legend for motif}
 
-\item{legend_lab_coverage}{the label of legend for coverage}
+\item{legend_lab_value2}{the label of legend for the second value(ylab is the label for the first value)}
 
 \item{switch_facet_label}{switch the facet label from right to left or not}
 

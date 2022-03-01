@@ -62,3 +62,8 @@
 ##'   \item{end}{the end site of dmR}
 ##' }
 "simulated_dmR"
+
+##' Simulated arabidopsis thaliana bmData object.
+##'
+##' A simulated data set contains simulated IPO information.
+"A_thaliana_bmData"

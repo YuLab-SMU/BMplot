@@ -8,8 +8,10 @@
 ##' @param xlim the specified interval of region, must be the sub-interval of the dmR
 ##' @param xlab the x label, can also be a list of x label
 ##' @param ylab the y label, can also be a list of y label
+##' @param second_ylab the ylab for second y-axis
+##' @param switch_y_value switch the value from left y-axis to right y-axis
 ##' @param legend_lab_motif the label of legend for motif
-##' @param legend_lab_coverage the label of legend for coverage
+##' @param legend_lab_value2 the label of legend for the second value(ylab is the label for the first value)
 ##' @param switch_facet_label switch the facet label from right to left or not
 ##' @param strip_placement strip.placement
 ##' @param angle_of_facet_label the angle of facet label, e.g. 0 is horizontal
@@ -35,10 +37,12 @@ plotBaseModificationProf <- function(df,
                                      motif_color = NULL,
                                      title = NULL,
                                      xlim = NULL,
-                                     xlab="Genomic Region(5'->3')",
-                                     ylab="Methylation(%)",
-                                     legend_lab_motif = "Methylation motif",
-                                     legend_lab_coverage = "Coverage",
+                                     xlab = "Genomic Region(5'->3')",
+                                     ylab = NULL,
+                                     second_ylab = NULL,
+                                     switch_y_value = FALSE,
+                                     legend_lab_motif = NULL,
+                                     legend_lab_value2 = NULL,
                                      switch_facet_label = TRUE,
                                      strip_placement = "outside",
                                      angle_of_facet_label = 0,
@@ -56,6 +60,18 @@ plotBaseModificationProf <- function(df,
                                      nrow = NULL,
                                      ncol = NULL,
                                      panel_spacing = 1){
+
+  ## assign default value for label
+  vName <- unique(df$type)
+  n0 <- length(vName)
+
+  if(n0 == 1){
+    if(is.null(ylab)) ylab <- vName
+  }else{
+    if(is.null(ylab)) ylab <- vName[1]
+    if(is.null(second_ylab)) second_ylab <- vName[2]
+    if(is.null(legend_lab_value2)) legend_lab_value2 <- vName[2]
+  }
 
   if(is.null(nrow) && is.null(ncol)){
     ncol <- 1
@@ -104,8 +120,10 @@ plotBaseModificationProf <- function(df,
                                                xlim = xlim,
                                                xlab = xlab[i],
                                                ylab = ylab[i],
+                                               second_ylab = second_ylab,
+                                               switch_y_value = switch_y_value,
                                                legend_lab_motif = legend_lab_motif,
-                                               legend_lab_coverage = legend_lab_coverage,
+                                               legend_lab_value2 = legend_lab_value2,
                                                switch_facet_label = switch_facet_label,
                                                strip_placement = strip_placement,
                                                angle_of_facet_label = angle_of_facet_label,
@@ -142,8 +160,10 @@ plotBaseModificationProf <- function(df,
                                              xlim = xlim,
                                              xlab = xlab[i],
                                              ylab = ylab[i],
+                                             second_ylab = second_ylab,
+                                             switch_y_value = switch_y_value,
                                              legend_lab_motif = legend_lab_motif,
-                                             legend_lab_coverage = legend_lab_coverage,
+                                             legend_lab_value2 = legend_lab_value2,
                                              switch_facet_label = switch_facet_label,
                                              strip_placement = strip_placement,
                                              angle_of_facet_label = angle_of_facet_label,
@@ -176,8 +196,10 @@ plotBaseModificationProf <- function(df,
                                            xlim = xlim,
                                            xlab = xlab,
                                            ylab = ylab,
+                                           second_ylab = second_ylab,
+                                           switch_y_value = switch_y_value,
                                            legend_lab_motif = legend_lab_motif,
-                                           legend_lab_coverage = legend_lab_coverage,
+                                           legend_lab_value2 = legend_lab_value2,
                                            switch_facet_label = switch_facet_label,
                                            strip_placement = strip_placement,
                                            angle_of_facet_label = angle_of_facet_label,
@@ -208,8 +230,10 @@ plotBaseModificationProf.internal <- function(df,
                                               xlim,
                                               xlab,
                                               ylab,
+                                              second_ylab,
+                                              switch_y_value,
                                               legend_lab_motif,
-                                              legend_lab_coverage,
+                                              legend_lab_value2,
                                               switch_facet_label = TRUE,
                                               strip_placement = "outside",
                                               angle_of_facet_label = 0,
@@ -228,6 +252,31 @@ plotBaseModificationProf.internal <- function(df,
 
   ## extract coordinate information
   coordinate <- unique(df$coordinate)
+
+  vName <- unique(df$type)
+  n0 <- length(vName)
+
+  if(n0 == 1){
+    vName1 <- vName
+    value1_max <- round(max(df$value))
+
+  }else{
+    vName1 <- vName[1]
+    vName2 <- vName[2]
+
+    if(switch_y_value){
+      vName1 <- vName[2]
+      vName2 <- vName[1]
+    }
+
+    value1_max <- round(max(df$value[df$type == vName1]))
+    value2_max <- round(max(df$value[df$type == vName2]))
+  }
+
+  ## flip the value on minus strand
+  value1_tmp <- df[df$type==vName1,]
+  value1_tmp$value[value1_tmp$strand == "-"] <- value1_tmp$value[value1_tmp$strand == "-"]*(-1)
+
 
   if(!is.null(xlim)){
 
@@ -267,24 +316,22 @@ plotBaseModificationProf.internal <- function(df,
   ## global binding for value and motif
   value <- motif <- NULL
 
-  if(attr(df,"cover_depth")){
+  if(n0 == 2){
 
-    depth_value <- unique(df[df$type=="depth",]$value)
-    depth_value <- depth_value[order(depth_value)]
-
-    positive_strand_temp <- negative_strand_temp <- df[df$type=="depth",]
+    positive_strand_temp <- negative_strand_temp <- df[df$type==vName2,]
     positive_strand_temp$value[positive_strand_temp$strand == "-"] <- 0
     negative_strand_temp$value[negative_strand_temp$strand == "+"] <- 0
 
-    ## add value to correct the rescale
     ncol_tmp <- nrow(positive_strand_temp)
     positive_strand_temp_value <- positive_strand_temp$value
     negative_strand_temp_value <- negative_strand_temp$value
-    positive_strand_temp_value[ncol_tmp+1] <- negative_strand_temp_value[ncol_tmp+1] <- 0
-    positive_strand_temp_value[ncol_tmp+2] <- negative_strand_temp_value[ncol_tmp+2] <- depth_value[length(depth_value)]
 
-    rescale_positive_strand <- rescale(positive_strand_temp_value,c(0,1))
-    rescale_negative_strand <- rescale(negative_strand_temp_value,c(0,-1))
+    ## add value to correct the rescale
+    positive_strand_temp_value[ncol_tmp+1] <- negative_strand_temp_value[ncol_tmp+1] <- 0
+    positive_strand_temp_value[ncol_tmp+2] <- negative_strand_temp_value[ncol_tmp+2] <- value2_max
+
+    rescale_positive_strand <- rescale(positive_strand_temp_value,c(0,value1_max))
+    rescale_negative_strand <- rescale(negative_strand_temp_value,c(0,(-1)*value1_max))
 
     rescale_positive_strand <- rescale_positive_strand[1:ncol_tmp]
     rescale_negative_strand <- rescale_negative_strand[1:ncol_tmp]
@@ -294,7 +341,7 @@ plotBaseModificationProf.internal <- function(df,
 
     ## plot the methylation information
     p <- ggplot(df)+
-      geom_col(data = df[df$type=="methylation",],mapping = aes(x=coordinate,y=value,fill=motif)) +
+      geom_col(data = df[df$type==vName1,],mapping = aes(x=coordinate,y=value,fill=motif)) +
       labs(fill = legend_lab_motif)
 
     ## plot the cover depth information
@@ -305,29 +352,29 @@ plotBaseModificationProf.internal <- function(df,
       geom_line(data = negative_strand_temp,
                 mapping = aes(x=coordinate,y=value,linetype="read depth information"),
                 color = "#868686FF",alpha=alpha) +
-      labs(linetype = legend_lab_coverage)
+      labs(linetype = legend_lab_value2)
 
     ## reorganize the axis
     p <- p +
-      scale_y_continuous(sec.axis = sec_axis(trans = ~rescale(.,c(-depth_value[length(depth_value)],depth_value[length(depth_value)])),
-                                             name = "Coverage",
-                                             breaks = c(-depth_value[length(depth_value)],
+      scale_y_continuous(sec.axis = sec_axis(trans = ~rescale(.,c(-value2_max,value2_max)),
+                                             name = second_ylab,
+                                             breaks = c(-value2_max,
                                                         0,
-                                                        depth_value[length(depth_value)]),
-                                             labels = c(paste0(depth_value[length(depth_value)]," (negative strand)"),
+                                                        value2_max),
+                                             labels = c(paste0(value2_max," (negative strand)"),
                                                         0,
-                                                        paste0(depth_value[length(depth_value)]," (positive strand)"))),
+                                                        paste0(value2_max," (positive strand)"))),
                          breaks = c(-1, -0.5, 0, 0.5, 1),
                          labels = c(1, 0.5, 0, 0.5, 1)) +
-    coord_cartesian(ylim = c(-1,1))
+    coord_cartesian(ylim = c(-value1_max,value1_max))
 
   }else{
     ## plot the methylation information
     p <- ggplot(df) +
       geom_col(mapping = aes(x=coordinate,y=value,fill=motif))+
       labs(fill = legend_lab_motif) +
-      suppressMessages(scale_y_continuous(breaks = c(-1, -0.5, 0, 0.5, 1),
-                                          labels = c(1, 0.5, 0, 0.5, 1)))
+      suppressMessages(scale_y_continuous(breaks = c((-1)*value1_max, (-0.5)*value1_max, 0, (0.5)*value1_max, value1_max),
+                                          labels = c(value1_max, (0.5)*value1_max, 0, (0.5)*value1_max, value1_max)))
   }
 
   ## facet the plot by sample

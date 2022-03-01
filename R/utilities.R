@@ -35,6 +35,55 @@ make_Methylation_reference <- function(input,cover_depth){
 }
 
 
+##' @importFrom SummarizedExperiment assayNames
+make_reference <- function(input){
+
+  ## make the  reference from bmData object
+  reference <- input@rowRanges
+
+  ## extract the valueNames
+  aName <- assayNames(input)
+
+  n0 <- length(aName)
+
+  if(n0 == 1){
+
+    for (i in input@colData@rownames) {
+
+      value <- input@assays@data@listData[[aName]][,i]
+
+      command <- paste0("mcols(reference)$",i, "_",aName,'<- value')
+
+      eval(parse(text = command))
+
+    }
+
+  }else{
+
+    for (i in input@colData@rownames) {
+
+      aName1 <- aName[1]
+      aName2 <- aName[2]
+
+      value1 <- input@assays@data@listData[[aName1]][,i]
+      value2 <- input@assays@data@listData[[aName2]][,i]
+
+      command <- paste0("mcols(reference)$",i, "_",aName1,'<- value1')
+
+      eval(parse(text = command))
+
+      command <- paste0("mcols(reference)$",i, "_",aName2,'<- value2')
+
+      eval(parse(text = command))
+
+    }
+
+  }
+
+  return(reference)
+
+}
+
 ##' @importFrom methods is
 loadBSgenome <- function(BSgenome){
 
@@ -73,7 +122,6 @@ loadBSgenome <- function(BSgenome){
 detect_strand_and_motif <- function(region,
                                     motif,
                                     BSgenome,
-                                    strand,
                                     methylation_reference,
                                     input,
                                     base,
@@ -174,16 +222,6 @@ detect_strand_and_motif <- function(region,
 
   ## filtered the unidentified melthylation sites
   dmR_melth <- dmR_melth[which(!is.na(mcols(dmR_melth)[["motif"]]))]
-
-  ## flip the methylation according to strand
-  if(strand){
-    colnames <- paste0(input@colData@rownames, "_methylation")
-    index <- which(as.character(strand(dmR_melth)) == "-")
-
-    for (i in colnames) {
-      mcols(dmR_melth)[[i]][index] <- -1*mcols(dmR_melth)[[i]][index]
-    }
-  }
 
   return(dmR_melth)
 }
