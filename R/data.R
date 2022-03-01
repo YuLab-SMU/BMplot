@@ -63,7 +63,9 @@
 ##' }
 "simulated_dmR"
 
-##' Simulated arabidopsis thaliana bmData object.
+##' Simulated IPO data of A_thaliana
 ##'
-##' A simulated data set contains simulated IPO information.
-"A_thaliana_bmData"
+##' A data set contains simulated IPO information. This data set is simulated
+##'    from GSE62206. We use two samples from GSE62206 and replace the previous value
+##'    in GSE62206 with random IPO and IPO ratio.
+"simulated_IPO"

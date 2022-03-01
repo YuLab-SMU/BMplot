@@ -46,6 +46,9 @@ for (i in seq_len(length(allDat))) {
 
 }
 
+simulated_IPO <- allDat
+use_data(simulated_IPO,overwrite = T)
+
 ## Now we output the allDat into compressed txt file and bed file
 ## in order to test the BMplot::makebmData()
 write.table(allDat[[1]],file = "GSM1522201_WT_seedlings_simulated.txt",
@@ -82,3 +85,4 @@ A_thaliana_bmData <- makebmDataFromFiles(name = "GSE62206_simulated",
                                          variablesNames = c("IPD","IPD_ratio"),
                                          sampleNames = c("GSM1522201_WT",
                                                          "GSM1522202_ddm1"))
+
