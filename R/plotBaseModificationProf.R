@@ -65,12 +65,26 @@ plotBaseModificationProf <- function(df,
   vName <- unique(df$type)
   n0 <- length(vName)
 
+
+  if(is.null(legend_lab_motif )){
+    legend_lab_motif <- "motif"
+  }
+
   if(n0 == 1){
     if(is.null(ylab)) ylab <- vName
   }else{
-    if(is.null(ylab)) ylab <- vName[1]
-    if(is.null(second_ylab)) second_ylab <- vName[2]
-    if(is.null(legend_lab_value2)) legend_lab_value2 <- vName[2]
+
+    vName1 <- vName[1]
+    vName2 <- vName[2]
+
+    if(switch_y_value){
+      vName1 <- vName[2]
+      vName2 <- vName[1]
+    }
+
+    if(is.null(ylab)) ylab <- vName1
+    if(is.null(second_ylab)) second_ylab <- vName2
+    if(is.null(legend_lab_value2)) legend_lab_value2 <- vName2
   }
 
   if(is.null(nrow) && is.null(ncol)){
@@ -274,8 +288,7 @@ plotBaseModificationProf.internal <- function(df,
   }
 
   ## flip the value on minus strand
-  value1_tmp <- df[df$type==vName1,]
-  value1_tmp$value[value1_tmp$strand == "-"] <- value1_tmp$value[value1_tmp$strand == "-"]*(-1)
+  df$value[df$type == vName1 & df$strand == "-"] <- (-1)*df$value[df$type == vName1 & df$strand == "-"]
 
 
   if(!is.null(xlim)){
@@ -330,11 +343,8 @@ plotBaseModificationProf.internal <- function(df,
     positive_strand_temp_value[ncol_tmp+1] <- negative_strand_temp_value[ncol_tmp+1] <- 0
     positive_strand_temp_value[ncol_tmp+2] <- negative_strand_temp_value[ncol_tmp+2] <- value2_max
 
-    rescale_positive_strand <- rescale(positive_strand_temp_value,c(0,value1_max))
-    rescale_negative_strand <- rescale(negative_strand_temp_value,c(0,(-1)*value1_max))
-
-    rescale_positive_strand <- rescale_positive_strand[1:ncol_tmp]
-    rescale_negative_strand <- rescale_negative_strand[1:ncol_tmp]
+    rescale_positive_strand <- rescale(positive_strand_temp_value,c(0,value1_max))[1:ncol_tmp]
+    rescale_negative_strand <- rescale(negative_strand_temp_value,c(0,(-1)*value1_max))[1:ncol_tmp]
 
     positive_strand_temp$value <- rescale_positive_strand
     negative_strand_temp$value <- rescale_negative_strand
@@ -347,10 +357,10 @@ plotBaseModificationProf.internal <- function(df,
     ## plot the cover depth information
     p <- p +
       geom_line(data = positive_strand_temp,
-                mapping = aes(x=coordinate,y=value,linetype="read depth information"),
+                mapping = aes(x=coordinate,y=value,linetype=paste0(vName2," information")),
                 color = "#868686FF",alpha=alpha) +
       geom_line(data = negative_strand_temp,
-                mapping = aes(x=coordinate,y=value,linetype="read depth information"),
+                mapping = aes(x=coordinate,y=value,linetype=paste0(vName2," information")),
                 color = "#868686FF",alpha=alpha) +
       labs(linetype = legend_lab_value2)
 
@@ -364,8 +374,8 @@ plotBaseModificationProf.internal <- function(df,
                                              labels = c(paste0(value2_max," (negative strand)"),
                                                         0,
                                                         paste0(value2_max," (positive strand)"))),
-                         breaks = c(-1, -0.5, 0, 0.5, 1),
-                         labels = c(1, 0.5, 0, 0.5, 1)) +
+                         breaks = c((-1)*value1_max, (-0.5)*value1_max, 0, (0.5)*value1_max, value1_max),
+                         labels = c(value1_max, (0.5)*value1_max, 0, (0.5)*value1_max, value1_max)) +
     coord_cartesian(ylim = c(-value1_max,value1_max))
 
   }else{

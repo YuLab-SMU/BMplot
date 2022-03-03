@@ -346,14 +346,28 @@ getBaseModificationDf.bmData.internal <- function(region,
 
   if(n0 == 2){
 
-    value1_content <- names(results)[grep(aName[1],names(results))]
-    value2_content <- names(results)[grep(aName[2],names(results))]
-    content <- c(value1_content,value2_content)
-    df <- gather(results, sample, value,all_of(content))
-    df$type[grep(aName[1],df$sample)] <- aName[1]
-    df$type[grep(aName[2],df$sample)] <- aName[2]
-    df$sample <- gsub(paste0("_",aName[1]),"",df$sample)
-    df$sample <- gsub(paste0("_",aName[2]),"",df$sample)
+    if(grepl(aName[1],aName[2])){
+      value2_content <- names(results)[grep(aName[2],names(results))]
+      value1_content <- names(results)[grep(aName[1],names(results))]
+      content <- c(value1_content,value2_content)
+      df <- gather(results, sample, value,all_of(content))
+      df$type <- rep(paste0(aName[1],aName[2]),length(df$sample))
+      df$type[grep(aName[2],df$sample)] <- aName[2]
+      df$type[df$type != aName[2]] <- aName[1]
+      df$sample <- gsub(paste0("_",aName[2]),"",df$sample)
+      df$sample <- gsub(paste0("_",aName[1]),"",df$sample)
+    }else{
+      value1_content <- names(results)[grep(aName[1],names(results))]
+      value2_content <- names(results)[grep(aName[2],names(results))]
+      content <- c(value1_content,value2_content)
+      df <- gather(results, sample, value,all_of(content))
+      df$type <- rep(paste0(aName[1],aName[2]),length(df$sample))
+      df$type[grep(aName[1],df$sample)] <- aName[1]
+      df$type[df$type != aName[1]] <- aName[2]
+      df$sample <- gsub(paste0("_",aName[1]),"",df$sample)
+      df$sample <- gsub(paste0("_",aName[2]),"",df$sample)
+    }
+
   }else{
 
     content <- names(results)[grep(aName,names(results))]
