@@ -31,7 +31,9 @@ plotBaseModificationProf(
   depth_heatmap = TRUE,
   nrow = NULL,
   ncol = NULL,
-  panel_spacing = 1
+  panel_spacing = 1,
+  legend_box_spacing = 3,
+  legend_position = "right"
 )
 }
 \arguments{
@@ -88,6 +90,10 @@ plotBaseModificationProf(
 \item{ncol}{the ncol of plotting a list of dmR}
 
 \item{panel_spacing}{the distance between panels}
+
+\item{legend_box_spacing}{the distance between legend and plotting area,"cm"}
+
+\item{legend_position}{the position of legend}
 }
 \value{
 ggplot object

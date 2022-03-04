@@ -29,6 +29,8 @@
 ##' @param nrow the nrow of plotting a list of dmR
 ##' @param ncol the ncol of plotting a list of dmR
 ##' @param panel_spacing the distance between panels
+##' @param legend_box_spacing the distance between legend and plotting area,"cm"
+##' @param legend_position the position of legend
 ##' @return ggplot object
 ##' @importFrom aplot plot_list
 ##' @importFrom methods is
@@ -59,7 +61,9 @@ plotBaseModificationProf <- function(df,
                                      depth_heatmap = TRUE,
                                      nrow = NULL,
                                      ncol = NULL,
-                                     panel_spacing = 1){
+                                     panel_spacing = 1,
+                                     legend_box_spacing = 3,
+                                     legend_position = "right"){
 
   ## assign default value for label
   vName <- unique(df$type)
@@ -152,7 +156,9 @@ plotBaseModificationProf <- function(df,
                                                left_y_axis_text_size = left_y_axis_text_size,
                                                x_axis_text_size = x_axis_text_size,
                                                depth_heatmap = depth_heatmap,
-                                               panel_spacing = panel_spacing)
+                                               panel_spacing = panel_spacing,
+                                               legend_box_spacing = legend_box_spacing,
+                                               legend_position = legend_position)
 
         temp[[i]] <- p
       }
@@ -192,7 +198,9 @@ plotBaseModificationProf <- function(df,
                                              left_y_axis_text_size = left_y_axis_text_size,
                                              x_axis_text_size = x_axis_text_size,
                                              depth_heatmap = depth_heatmap,
-                                             panel_spacing = panel_spacing)
+                                             panel_spacing = panel_spacing,
+                                             legend_box_spacing = legend_box_spacing,
+                                             legend_position = legend_position)
 
       temp[[i]] <- p
     }
@@ -228,7 +236,9 @@ plotBaseModificationProf <- function(df,
                                            left_y_axis_text_size = left_y_axis_text_size,
                                            x_axis_text_size = x_axis_text_size,
                                            depth_heatmap = depth_heatmap,
-                                           panel_spacing = panel_spacing)
+                                           panel_spacing = panel_spacing,
+                                           legend_box_spacing = legend_box_spacing,
+                                           legend_position = legend_position)
   }
 
 
@@ -262,7 +272,9 @@ plotBaseModificationProf.internal <- function(df,
                                               left_y_axis_text_size = 13,
                                               x_axis_text_size = 13,
                                               depth_heatmap = TRUE,
-                                              panel_spacing = 1){
+                                              panel_spacing = 1,
+                                              legend_box_spacing = 3,
+                                              legend_position = "right"){
 
   ## extract coordinate information
   coordinate <- unique(df$coordinate)
@@ -364,6 +376,7 @@ plotBaseModificationProf.internal <- function(df,
                 color = "#868686FF",alpha=alpha) +
       labs(linetype = legend_lab_value2)
 
+    ## fix the legend order
     p <- p + guides(fill = guide_legend(order = 1),
                     linetype = guide_legend(order = 0))
 
@@ -455,6 +468,10 @@ plotBaseModificationProf.internal <- function(df,
                  axis.ticks.length.x = unit(x_ticks_length, "cm"),
                  plot.margin = unit(c(0.5,0.5,0.5,0.5), "cm"),
                  panel.spacing.y = unit(panel_spacing,"cm"))
+
+  ## replace the legend
+  p <- p + theme(legend.box.spacing = unit(legend_box_spacing,"cm"),
+                 legend.position = legend_position)
 
   return(p)
 }
