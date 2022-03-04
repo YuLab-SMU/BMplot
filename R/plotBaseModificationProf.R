@@ -364,6 +364,9 @@ plotBaseModificationProf.internal <- function(df,
                 color = "#868686FF",alpha=alpha) +
       labs(linetype = legend_lab_value2)
 
+    p <- p + guides(fill = guide_legend(order = 1),
+                    linetype = guide_legend(order = 0))
+
     ## reorganize the axis
     p <- p +
       scale_y_continuous(sec.axis = sec_axis(trans = ~rescale(.,c(-value2_max,value2_max)),
