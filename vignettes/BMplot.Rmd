@@ -93,7 +93,7 @@ files <- getSampleFiles()
 gr1 <- readPeakFile(files[[4]])
 mcols(gr1)[[1]] <- runif(length(gr1))
 
-## make bmData from grange object
+# make bmData from grange object
 dmData_grange <- makebmDataFromData(data = gr1, 
                                     sampleNames = c("GSM1295076_CBX6_BF"))
 
@@ -107,7 +107,7 @@ dmData_grangelist <- makebmDataFromData(data = gr_list,
                                         sampleNames = c("GSM1295076_CBX6_BF",
                                                         "GSM1295077_CBX7_BF"))
 
-## make bmData from data.frame
+# make bmData from data.frame
 df <- data.frame(chr=as.character(seqnames(gr1)),pos=start(gr1),
                  value1= mcols(gr1)[[1]], value2= mcols(gr1)[[2]])
 
@@ -115,7 +115,7 @@ df_bmData <- makebmDataFromData(data = df,
                                 sampleNames = c("GSM1295076_CBX6_BF"))
 
 
-## make bmData from list
+# make bmData from list
 df2 <- data.frame(chr=as.character(seqnames(gr2)),pos=start(gr2),
                   value1= mcols(gr2)[[1]], value2= mcols(gr2)[[2]])
 
@@ -130,20 +130,20 @@ Users can also use `makebmDataFromFiles()` to make bmData object from file.
 
 filefolder <- SampleFileFolder()
 
-## test folder with bed files
+# test folder with bed files
 bed_folder_bmData <- makebmDataFromFiles(name = filefolder[[1]],
                                          sampleNames = c("GSM1295076_CBX6_BF",
                                                          "GSM1295077_CBX7_BF"),
                                          variablesNames = c("IPO_ratio","IPO"))
 
 bedfile <- SamepleBedFiles()
-## test bed file
+# test bed file
 bed_bmData <- makebmDataFromFiles(name = bedfile[[1]],
                                   sampleNames = c("GSM1295076_CBX6_BF"),
                                   variablesNames = c("IPO_ratio","IPO"))
 
 
-## test folder with txt files
+# test folder with txt files
 txt_folder_bmData <- makebmDataFromFiles(name = filefolder[[2]],
                                          sampleNames = c("GSM1295076_CBX6_BF",
                                                          "GSM1295077_CBX7_BF"),
@@ -151,7 +151,7 @@ txt_folder_bmData <- makebmDataFromFiles(name = filefolder[[2]],
 
 
 txt_file <- SamepleTxtFiles()
-## test txt file
+# test txt file
 txt_bmData <- makebmDataFromFiles(name = txt_file[[1]],
                                   sampleNames = c("GSM1295076_CBX6_BF"),
                                   variablesNames = c("IPO_ratio","IPO"))
@@ -176,7 +176,7 @@ library(BSgenome.Hsapiens.UCSC.hg19)
 BSgenome_human <- BSgenome.Hsapiens.UCSC.hg19
 human_df <- getBaseModificationDf(region = Human_dmR[1,],
                                   BSgenome = BSgenome_human,
-                                  BSseq = Human_BSobj,
+                                  input = Human_BSobj,
                                   base = "C",
                                   motif = c("CG"))
 
@@ -203,7 +203,7 @@ library(BSgenome.Athaliana.TAIR.TAIR9)
 BSgenome_thaliana <- BSgenome.Athaliana.TAIR.TAIR9
 thaliana_df <- getBaseModificationDf(region = A_thaliana_dmR,
                                      BSgenome = BSgenome_thaliana,
-                                     BSseq = A_thaliana_BSobj,
+                                     input = A_thaliana_BSobj,
                                      base = "C",
                                      motif = c("CG","CHG","CHH"))
 
@@ -227,7 +227,7 @@ Normal motifs, like `CG` and `CHG`, have the base in the first position. However
 BMplot provide simulated data to illustrate this parameter. We simulated the base modification data of adenine and put the procession in the `./data-raw/simulated_A_thaliana_data_procession.R`.
 ```{r eval=FALSE}
 df_simulate <- getBaseModificationDf(region = simulated_dmR,
-                                     BSseq = simulated_BSobj,
+                                     input = simulated_BSobj,
                                      BSgenome = BSgenome_thaliana,
                                      motif = c("GAGG","ANYGA"),
                                      position_bias = c(2,5),
@@ -243,7 +243,7 @@ BMplot supports to visualize a list of dmRs.
 ```{r eval=FALSE}
 df_list <- getBaseModificationDf(region = Human_dmR[1:2,],
                                  BSgenome = BSgenome_human,
-                                 BSseq = Human_BSobj,
+                                 input = Human_BSobj,
                                  base = "C",
                                  motif = c("CG"))
 
@@ -258,7 +258,7 @@ We use two sets of data focusing in `5mC` and assume that one is data for `5mC` 
 
 df_list1 <- getBaseModificationDf(region = Human_dmR[1:2,],
                                   BSgenome = BSgenome_human,
-                                  BSseq = Human_BSobj,
+                                  input = Human_BSobj,
                                   base = "C",
                                   motif = c("CG"))
 
@@ -275,7 +275,7 @@ The `motif` parameter has its own order. `getBaseModificationDf()` will do the a
 ```{r eval=FALSE}
 df1 <- getBaseModificationDf(region = Human_dmR[1,],
                              BSgenome = BSgenome_human,
-                             BSseq = Human_BSobj,
+                             input = Human_BSobj,
                              base = "C",
                              motif = c("CN","CH"))
 ```
