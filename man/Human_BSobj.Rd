@@ -12,5 +12,6 @@ Human_BSobj
 }
 \description{
 A data set contains methylation information
+see data-row/Human_data_procession.R
 }
 \keyword{datasets}

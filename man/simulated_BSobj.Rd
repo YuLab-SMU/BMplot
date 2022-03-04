@@ -15,5 +15,6 @@ A simulated data set contains methylation information.
 These data were created by finding the adenine positions in a specific region,
 which was supposed to be the dmR, and assign the adenine sites with random values.
 At last created BSseq object by DSS.
+see data-row/simulated_A_thaliana_data_procession.R
 }
 \keyword{datasets}

@@ -38,12 +38,13 @@ Biocannopkg <- Biocpkg
 library(BMplot)
 library(BSgenome.Athaliana.TAIR.TAIR9)
 library(BSgenome.Hsapiens.UCSC.hg19)
+library(ChIPseeker)
 library(DSS)
 library(ggplot2)
 ```
 
 # Abstract
-BMplot is an R package for visualizing Base modification data. Base modification includes DNA methylation and RNA methylation. BMplot provides functions to get the information of base modification and visualize it. 
+`BMplot` is an R package for visualizing Base modification data. Base modification includes DNA methylation and RNA methylation. `BMplot` provides functions to organize the information of base modification and visualize it. 
 
 # Introduction
 Epigenetics plays an important role in Biology in the way of changing genetic information without changing nucleic acids. Histone modification and Methylation are two vital mechanisms in Epigenetics. 
@@ -52,31 +53,114 @@ Many methods are used to detect the methylation in Epigenentics with the combina
 ```{r}
 ## loading package
 library(BMplot)
+library(BSgenome.Athaliana.TAIR.TAIR9)
+library(BSgenome.Hsapiens.UCSC.hg19)
+library(ChIPseeker)
 library(DSS)
 library(ggplot2)
 ```
 
 
-# Usage
-BMplot provides two functions to achieve the goal of visualizing base modification, including `getBaseModificationDf()` to get the information of base modification and `plotBaseModificationProf()` to visualize the base modification according to data frame created by `getBaseModificationDf()`.
+# Description
+`BMplot` provides functions to achieve the goal of visualizing base modification. `getBaseModificationDf()` can get the information of base modification and organize it into the form of data frame. `plotBaseModificationProf()` use ggplot2 methods to visualize the base modification according to data frame created by `getBaseModificationDf()`. `bmData()` is a constructor for bmData object, which storing any base modification data including methylation value and read coverage value.
 
 ## Get the information of base modification
 
 ### Input data
-The input data contains three main parts. `region` is the region information of base modification organized in the form of data frame. `BSseq` is the base modification data organized in the form of `BSseq object` . `BSgenome` is the sequence information provided by a set of `BSgenome` package.
+The input data contains three main parts. `region` is the region information of base modification organized in the form of data frame. `input` is the data structure which storing base modification data, including `BSseq object` and `bmData object` . `BSgenome` is the sequence information provided by a set of `BSgenome` package.
 
+### BSseq object
 `BSseq` is a class defined by `r Biocpkg("bsseq")`[@Kasper_2012], representing whole-genome or capturing bisulfite sequencing data. `BSseq` can be constructed by `bsseq::BSseq()`. It can also be created by `r Biocpkg("DSS")`[@Hao_Wu_2013;@Hao_Wu_2014;@Hao_Wu_2015;@Hao_Wu_2016], using `DSS::makeBSseqData()`. These two constructors above are also exported in BMplot. Other constructors can also be used to construct BSseq object.
 
 
-### Output data
-The output data of `getBaseModificationDf()` is a data frame, containing the information of base modification.
+### bmData object
+bmData object is similar to BSseq object, storing any base modification information, like IPO value[@flusberg2010direct] and so on, for the reason that BSseq object can only store information of methylation and read depth. There are three functions provided by `BMplot` including one constructor and two functions enclosing the constructor.
+
+`bmData()` is the constructor of bmData object. Users can organize the data of interest into matrix-like object. For brief, users should extract each kind of value from the combined results. For example, users may get the combined results in the form of two matrix-like objects. Each object represent one sample and contain two value, like methylation value and depth value. User should first extract the methylation value from each sample and organize all the methylation value into one matrix-like object. Then do the same thing to depth value.
+```{r eval=FALSE}
+bmData <- function(value1 = NULL, value2 = NULL,
+                   pos = NULL, chr = NULL, gr = NULL,
+                   sampleNames = NULL, valueNames = NULL,
+                   ...)
+```
+
+
+For the sake of convenience, `BMplot` provide two functions encloseing the constructor. Users can use `makebmDataFromData()` to make bmData object from data. The data should be organized in one of the `Granges`, `GrangeList`, `data.frame` and `list` structure. 
+```{r eval=FALSE}
+# simulated grange and grangelist object
+files <- getSampleFiles()
+
+gr1 <- readPeakFile(files[[4]])
+mcols(gr1)[[1]] <- runif(length(gr1))
+
+## make bmData from grange object
+dmData_grange <- makebmDataFromData(data = gr1, 
+                                    sampleNames = c("GSM1295076_CBX6_BF"))
+
+
+# make bmData from grangelist
+gr2 <- readPeakFile(files[[5]])
+mcols(gr2)[[1]] <- runif(length(gr2))
+gr_list <- GRangesList(gr1,gr2)
+
+dmData_grangelist <- makebmDataFromData(data = gr_list,
+                                        sampleNames = c("GSM1295076_CBX6_BF",
+                                                        "GSM1295077_CBX7_BF"))
+
+## make bmData from data.frame
+df <- data.frame(chr=as.character(seqnames(gr1)),pos=start(gr1),
+                 value1= mcols(gr1)[[1]], value2= mcols(gr1)[[2]])
+
+df_bmData <- makebmDataFromData(data = df, 
+                                sampleNames = c("GSM1295076_CBX6_BF"))
+
+
+## make bmData from list
+df2 <- data.frame(chr=as.character(seqnames(gr2)),pos=start(gr2),
+                  value1= mcols(gr2)[[1]], value2= mcols(gr2)[[2]])
+
+df_list <- list(df,df2)
+
+df_list_bmData <- makebmDataFromData(data = df_list,
+                                     sampleNames = c("GSM1295076_CBX6_BF",
+                                                     "GSM1295077_CBX7_BF"))
+```
+Users can also use `makebmDataFromFiles()` to make bmData object from file.
+```{r eval=FALSE}
+
+filefolder <- SampleFileFolder()
+
+## test folder with bed files
+bed_folder_bmData <- makebmDataFromFiles(name = filefolder[[1]],
+                                         sampleNames = c("GSM1295076_CBX6_BF",
+                                                         "GSM1295077_CBX7_BF"),
+                                         variablesNames = c("IPO_ratio","IPO"))
+
+bedfile <- SamepleBedFiles()
+## test bed file
+bed_bmData <- makebmDataFromFiles(name = bedfile[[1]],
+                                  sampleNames = c("GSM1295076_CBX6_BF"),
+                                  variablesNames = c("IPO_ratio","IPO"))
+
+
+## test folder with txt files
+txt_folder_bmData <- makebmDataFromFiles(name = filefolder[[2]],
+                                         sampleNames = c("GSM1295076_CBX6_BF",
+                                                         "GSM1295077_CBX7_BF"),
+                                         variablesNames = c("IPO_ratio","IPO"))
+
+
+txt_file <- SamepleTxtFiles()
+## test txt file
+txt_bmData <- makebmDataFromFiles(name = txt_file[[1]],
+                                  sampleNames = c("GSM1295076_CBX6_BF"),
+                                  variablesNames = c("IPO_ratio","IPO"))
+
+```
+
 
 ## Plot base modification
-### Input data
-The main part of the input data of `plotBaseModificationProf()` is the data frame created by `getBaseModificationDf()`.
-
-### Output data
-The output data of `plotBaseModificationProf()` is a ggplot object.
+The main part of the input data of `plotBaseModificationProf()` is the data frame created by `getBaseModificationDf()`.The output data of is a ggplot object.
 
 
 # Work Flow

@@ -502,3 +502,50 @@ SummarizedExperiment::assays
 ##'
 ##' @export
 SummarizedExperiment::assay
+
+##' Get the sample bed files
+##'
+##' This function overwrite the ChIPseeker::getSampleFiles().
+##' @seealso \code{\link[ChIPseeker]{getSampleFiles}}
+##'
+##' @export
+SamepleBedFiles <- function(){
+  dir <- system.file("extdata", "simulated_bed_file",package = "BMplot")
+  files <- list.files(dir)
+  protein <- gsub(pattern='GSM\\d+_(\\w+_\\w+)_.*', replacement='\\1',files)
+  protein <- sub("_Chip.+", "", protein)
+  res <- paste(dir, files, sep="/")
+  res <- as.list(res)
+  names(res) <- protein
+  return(res)
+}
+
+##' Get the sample txt files
+##'
+##' This function overwrite the ChIPseeker::getSampleFiles().
+##' @seealso \code{\link[ChIPseeker]{getSampleFiles}}
+##'
+##' @export
+SamepleTxtFiles <- function(){
+  dir <- system.file("extdata", "simulated_txt_file",package = "BMplot")
+  files <- list.files(dir)
+  protein <- gsub(pattern='GSM\\d+_(\\w+_\\w+)_.*', replacement='\\1',files)
+  protein <- sub("_Chip.+", "", protein)
+  res <- paste(dir, files, sep="/")
+  res <- as.list(res)
+  names(res) <- protein
+  return(res)
+}
+
+##' get the sample file folder name
+##'
+##' @export
+SampleFileFolder <- function(){
+  dir <- system.file("extdata",package = "BMplot")
+  files <- list.files(dir)
+  protein <- gsub(pattern='\\w+_(\\w+_\\w+)', replacement='\\1',files)
+  res <- paste(dir, files, sep="/")
+  res <- as.list(res)
+  names(res) <- protein
+  return(res)
+}

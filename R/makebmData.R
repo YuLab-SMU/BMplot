@@ -378,7 +378,7 @@ makebmDataFromFiles.file <- function(name, variablesNames){
 
     cat(">> reading",name, format(Sys.time(), "%Y-%m-%d %X"), "\n")
 
-    data=readPeakFile(file.path("./",name))
+    data=readPeakFile(name)
 
     if(is.null(variablesNames)){
       n0 <- length(names(mcols(data)))
@@ -391,7 +391,7 @@ makebmDataFromFiles.file <- function(name, variablesNames){
   }
 
   cat(">> reading",name, format(Sys.time(), "%Y-%m-%d %X"), "\n")
-  data=fread(file.path("./",name))
+  data=fread(name)
 
   if(is.null(variablesNames)){
     n0 <- ncol(data)-2

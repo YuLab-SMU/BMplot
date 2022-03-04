@@ -17,5 +17,6 @@ simulated_dmR
 }
 \description{
 A data set contains information of different methylation region
+see data-row/simulated_A_thaliana_data_procession.R
 }
 \keyword{datasets}

@@ -23,5 +23,6 @@ A_thaliana_dmR
 }
 \description{
 A data set contains information of different methylation region
+see data-row/A_thaliana_data_procession.R
 }
 \keyword{datasets}
