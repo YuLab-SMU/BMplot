@@ -12,7 +12,7 @@ output:
   pdf_document:
     toc: true
 vignette: >
-  %\VignetteIndexEntry{ChIPseeker: an R package for ChIP peak Annotation, Comparison and Visualization}
+  %\VignetteIndexEntry{BMplot: an R package for Base Modification Visulization}
   %\VignetteEngine{knitr::rmarkdown}
   %\usepackage[utf8]{inputenc}
   %\VignetteEncoding{UTF-8}
