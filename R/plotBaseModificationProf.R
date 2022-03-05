@@ -334,7 +334,7 @@ plotBaseModificationProf.internal <- function(df,
                     coordinate[1],
                     "~",
                     coordinate[length(coordinate)],
-                    " bp Methylation Profile")
+                    " bp")
   }
 
 
