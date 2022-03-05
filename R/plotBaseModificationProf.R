@@ -66,7 +66,13 @@ plotBaseModificationProf <- function(df,
                                      legend_position = "right"){
 
   ## assign default value for label
-  vName <- unique(df$type)
+  if(is(df,"list")){
+    tmpdf <- df[[1]]
+  }else{
+    tmpdf <- df
+  }
+
+  vName <- unique(tmpdf$type)
   n0 <- length(vName)
 
 
