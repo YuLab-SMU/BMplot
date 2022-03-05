@@ -38,28 +38,34 @@ base modification through the data frame created by
 DNA Methylation is one of the base modifications. It is well worthy to
 investigate the different methylation region(dmR) in DNA methylayion.
 
-### Detect dmR and Create BSseq object
+### Input
 
 Any method can be used to detect dmR and create BSseq object. We use
 `DSS` package to achieve this goal. For better experience, We made some
 example data for users to go through BMplot.
 
+Since `BSseq` object can only hold methylation value and read depth
+value, we create a `bmData` object to store any information of base
+modification
+
 ### Get the information of base modification
 
 We extracted the information from BSseq object and mapped to the
-sequence data stored in `BSgenome.Hsapiens.UCSC.hg19`. Then we extracted
-the motif and strand information and organized it in the form of data
-frame. Cytosine was the interesting base to detect and the
+sequence data stored in `BSgenome.Athaliana.TAIR.TAIR9`. Then we
+extracted the motif and strand information and organized it in the form
+of data frame. Cytosine was the interesting base to detect and the
 `CG, CHH and CHG` were the motifs to investigate.
 
 ``` r
-library(BSgenome.Hsapiens.UCSC.hg19)
-BSgenome_human <- BSgenome.Hsapiens.UCSC.hg19
-human_df <- getBaseModificationDf(region = Human_dmR[1,],
-                                  BSgenome = BSgenome_human,
-                                  BSseq = Human_BSobj,
-                                  base = "C",
-                                  motif = c("CG"))
+library(BSgenome.Athaliana.TAIR.TAIR9)
+BSgenome_thaliana <- BSgenome.Athaliana.TAIR.TAIR9
+
+# A_thaliana_dmR and A_thaliana_BSobj are internal sample data
+thaliana_df <- getBaseModificationDf(region = A_thaliana_dmR,
+                                     BSgenome = BSgenome_thaliana,
+                                     input = A_thaliana_BSobj,
+                                     base = "C",
+                                     motif = c("CG","CHG","CHH"))
 ```
 
 The data frame have six columns. `coordinate` stands for the the
@@ -73,10 +79,10 @@ should be depth value or methylation value.
 ### Visualize the base modification
 
 ``` r
-plotBaseModificationProf(human_df)
+plotBaseModificationProf(thaliana_df,switch_y_value = T)
 ```
 
-![](./vignettes/figures/readme.png)
+![](vignettes/figures/readme.png)
 
 ## Installation
 

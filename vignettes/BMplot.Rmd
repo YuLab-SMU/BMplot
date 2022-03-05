@@ -174,6 +174,8 @@ We extracted the information from BSseq object and mapped to the sequence data s
 ```{r }
 library(BSgenome.Hsapiens.UCSC.hg19)
 BSgenome_human <- BSgenome.Hsapiens.UCSC.hg19
+
+# Human_dmR and Human_BSobj are internal sample data
 human_df <- getBaseModificationDf(region = Human_dmR[1,],
                                   BSgenome = BSgenome_human,
                                   input = Human_BSobj,
@@ -187,7 +189,7 @@ The data frame have six columns. `coordinate` stands for the the coordinate of e
 
 ## Visualize the base modification
 ```{r fig.cap="Visualize dmR in Homo sapiens",fig.align='center', fig.height=7, fig.width=12}
-plotBaseModificationProf(human_df)
+plotBaseModificationProf(human_df,switch_y_value = T)
 ```
 
 
@@ -201,6 +203,8 @@ We use the same procession above to get the base modification of A_thaliana. The
 ```{r}
 library(BSgenome.Athaliana.TAIR.TAIR9)
 BSgenome_thaliana <- BSgenome.Athaliana.TAIR.TAIR9
+
+# A_thaliana_dmR and A_thaliana_BSobj are internal sample data
 thaliana_df <- getBaseModificationDf(region = A_thaliana_dmR,
                                      BSgenome = BSgenome_thaliana,
                                      input = A_thaliana_BSobj,
@@ -212,20 +216,25 @@ head(thaliana_df)
 
 ### Visualize the base modification
 ```{r fig.cap="Visualize dmR in A_thaliana",fig.align='center', fig.height=7, fig.width=12}
-plotBaseModificationProf(thaliana_df)
+plotBaseModificationProf(thaliana_df,switch_y_value = T)
 ```
 
 ### Change the colors of each motif
 The colors we use to visualize motif are the default colors in `r CRANpkg("ggplot2")`[@Hadley_2016]. Users can specify the colors of interest through `motif_color`. The order of color maps the order of the motifs on the picture.
 ```{r fig.cap="change the colors of motif",fig.align='center', fig.height=7, fig.width=12}
 plotBaseModificationProf(thaliana_df,
-                         motif_color = c("#993366","#3300CC","#CC6600"))
+                         motif_color = c("#993366","#3300CC","#CC6600"),
+                         switch_y_value = T)
 ```
+
+### switch the y axis value
+`BMplot` will put the value on y axis by default. For example, depth value was put on the left axis and methylation value was put on the right axis when ploting the methylation profile. Users can switch the depth value from left to right and methylation value from right to left by setting the `switch_y_value` to TRUE.
 
 ## Visualize special motif with position bias
 Normal motifs, like `CG` and `CHG`, have the base in the first position. However, we would visualize others special motifs in the research of Epigenetics. We would investigate adenine in `GAGG`, which having the interesting base in the second position. `position_bias` comes to solve this problem. 
 BMplot provide simulated data to illustrate this parameter. We simulated the base modification data of adenine and put the procession in the `./data-raw/simulated_A_thaliana_data_procession.R`.
 ```{r eval=FALSE}
+# simulated_dmR and simulated_BSobj are internal sample data
 df_simulate <- getBaseModificationDf(region = simulated_dmR,
                                      input = simulated_BSobj,
                                      BSgenome = BSgenome_thaliana,
@@ -245,10 +254,10 @@ df_list <- getBaseModificationDf(region = Human_dmR[1:2,],
                                  BSgenome = BSgenome_human,
                                  input = Human_BSobj,
                                  base = "C",
-                                 motif = c("CG"))
+                                 motif = c("CG","CHH","CHG"))
 
 ## nrow control the layout of pictures
-plotBaseModificationProf(df_list,nrow = 1)
+plotBaseModificationProf(df_list,nrow = 1,switch_y_value = T)
 ```
 ![visualize a list of dmRs](figures/dmR_list.png)
 ### Visualize two kinds of base modifications in a picture
@@ -260,14 +269,35 @@ df_list1 <- getBaseModificationDf(region = Human_dmR[1:2,],
                                   BSgenome = BSgenome_human,
                                   input = Human_BSobj,
                                   base = "C",
-                                  motif = c("CG"))
+                                  motif = c("CG","CHH","CHG"))
 
 plotBaseModificationProf(df_list1,
                          title = c("5mC Methylation","5hmC Methylation"),
-                         nrow = 1)
+                         nrow = 1,
+                         switch_y_value = T)
 
 ```
 ![Different modifications in a figure](figures/different_modifications.png)
+
+## visualize other information of base modification
+Base modification can produce many information including not only depth value and methylation value but also IPO value. IPO and IPD ratio are important indicators in single-molecule real-time sequencing. We can distinguish modified bases with it[@flusberg2010direct]. Visualizing IPO and IPO ratio in different motifs is a worthy attempt. 
+
+The following data is simulated from GSE62206 by assigning random IPO value and IPO ratio value to each base in GSE62206. Since the `BSseq` object can only store data of methylation(X) and read depth(N), we create a `bmData` object to hold any information of base modification.
+```{r fig.cap="Visualize IPO and IPO ration on different motifs",fig.align='center', fig.height=7, fig.width=12}
+bmData_A_thaliana <-  makebmDataFromData(data = simulated_IPO,
+                                         sampleNames = c("GSM1522201_WT",
+                                                         "GSM1522201_ddm1"))
+
+bmData_df <- getBaseModificationDf(region = A_thaliana_dmR[1,],
+                                   input = bmData_A_thaliana,
+                                   BSgenome = BSgenome.Athaliana.TAIR.TAIR9::Athaliana,
+                                   motif = c("CG","CHH","CHG"),
+                                   base = "C")
+
+plotBaseModificationProf(bmData_df,switch_y_value = T,
+                         ylab = "IPD_ratio(%)",second_ylab = "IPD(s)")
+
+```
 
 # Common problems
 ## The order of the motifs
