@@ -5,17 +5,18 @@ date: "`r Sys.Date()`"
 bibliography: BMplot.bib
 biblio-style: apalike
 output:
+  pdf_document: 
+    toc: yes
+    latex_engine: xelatex
   prettydoc::html_pretty:
     toc: true
     theme: cayman
     highlight: github
-  pdf_document:
-    toc: true
 vignette: >
-  %\VignetteIndexEntry{BMplot: an R package for Base Modification Visulization}
-  %\VignetteEngine{knitr::rmarkdown}
   %\usepackage[utf8]{inputenc}
   %\VignetteEncoding{UTF-8}
+  %\VignetteIndexEntry{BMplot: an R package for Base Modification Visulization}
+  %\VignetteEngine{knitr::rmarkdown}
 ---
 
 ```{r style, echo=FALSE, results='asis', message=FALSE}
@@ -215,7 +216,7 @@ head(thaliana_df)
 ```
 
 ### Visualize the base modification
-```{r fig.cap="Visualize dmR in A_thaliana",fig.align='center', fig.height=7, fig.width=12}
+```{r fig.cap="Visualize dmR in thaliana",fig.align='center', fig.height=7, fig.width=12}
 plotBaseModificationProf(thaliana_df,switch_y_value = T)
 ```
 
