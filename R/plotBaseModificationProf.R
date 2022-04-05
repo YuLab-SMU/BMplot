@@ -290,7 +290,7 @@ plotBaseModificationProf.internal <- function(df,
 
   if(n0 == 1){
     vName1 <- vName
-    value1_max <- round(max(df$value))
+    value1_max <- ceiling(max(df$value))
 
   }else{
     vName1 <- vName[1]
@@ -301,8 +301,8 @@ plotBaseModificationProf.internal <- function(df,
       vName2 <- vName[1]
     }
 
-    value1_max <- round(max(df$value[df$type == vName1]))
-    value2_max <- round(max(df$value[df$type == vName2]))
+    value1_max <- ceiling(max(df$value[df$type == vName1]))
+    value2_max <- ceiling(max(df$value[df$type == vName2]))
   }
 
   ## flip the value on minus strand
