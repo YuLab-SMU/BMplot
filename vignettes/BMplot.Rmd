@@ -5,13 +5,13 @@ date: "`r Sys.Date()`"
 bibliography: BMplot.bib
 biblio-style: apalike
 output:
-  pdf_document: 
-    toc: yes
-    latex_engine: xelatex
   prettydoc::html_pretty:
     toc: true
     theme: cayman
     highlight: github
+  pdf_document: 
+    toc: yes
+    latex_engine: xelatex
 vignette: >
   %\usepackage[utf8]{inputenc}
   %\VignetteEncoding{UTF-8}
