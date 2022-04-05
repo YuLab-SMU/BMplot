@@ -48,7 +48,7 @@ plotBaseModificationProf <- function(df,
                                      switch_facet_label = TRUE,
                                      strip_placement = "outside",
                                      angle_of_facet_label = 0,
-                                     alpha = 0.3,
+                                     alpha = 0.6,
                                      y_ticks_length = 0.25,
                                      x_ticks_length = 0.25,
                                      strip_border = FALSE,
@@ -366,6 +366,9 @@ plotBaseModificationProf.internal <- function(df,
 
     positive_strand_temp$value <- rescale_positive_strand
     negative_strand_temp$value <- rescale_negative_strand
+
+    positive_strand_temp <- positive_strand_temp[positive_strand_temp$value != 0,]
+    negative_strand_temp <- negative_strand_temp[negative_strand_temp$value != 0,]
 
     ## plot the methylation information
     p <- ggplot(df)+

@@ -18,7 +18,7 @@ plotBaseModificationProf(
   switch_facet_label = TRUE,
   strip_placement = "outside",
   angle_of_facet_label = 0,
-  alpha = 0.3,
+  alpha = 0.6,
   y_ticks_length = 0.25,
   x_ticks_length = 0.25,
   strip_border = FALSE,
