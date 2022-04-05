@@ -75,7 +75,7 @@ The input data contains three main parts. `region` is the region information of 
 
 
 ### bmData object
-bmData object is similar to BSseq object, storing any base modification information, like IPO value[@flusberg2010direct] and so on, for the reason that BSseq object can only store information of methylation and read depth. There are three functions provided by `BMplot` including one constructor and two functions enclosing the constructor.
+bmData object is similar to BSseq object, storing any base modification information, like IPD value[@flusberg2010direct] and so on, for the reason that BSseq object can only store information of methylation and read depth. There are three functions provided by `BMplot` including one constructor and two functions enclosing the constructor.
 
 `bmData()` is the constructor of bmData object. Users can organize the data of interest into matrix-like object. For brief, users should extract each kind of value from the combined results. For example, users may get the combined results in the form of two matrix-like objects. Each object represent one sample and contain two value, like methylation value and depth value. User should first extract the methylation value from each sample and organize all the methylation value into one matrix-like object. Then do the same thing to depth value.
 ```{r eval=FALSE}
@@ -135,27 +135,27 @@ filefolder <- SampleFileFolder()
 bed_folder_bmData <- makebmDataFromFiles(name = filefolder[[1]],
                                          sampleNames = c("GSM1295076_CBX6_BF",
                                                          "GSM1295077_CBX7_BF"),
-                                         variablesNames = c("IPO_ratio","IPO"))
+                                         variablesNames = c("IPD_ratio","IPD"))
 
 bedfile <- SamepleBedFiles()
 # test bed file
 bed_bmData <- makebmDataFromFiles(name = bedfile[[1]],
                                   sampleNames = c("GSM1295076_CBX6_BF"),
-                                  variablesNames = c("IPO_ratio","IPO"))
+                                  variablesNames = c("IPD_ratio","IPD"))
 
 
 # test folder with txt files
 txt_folder_bmData <- makebmDataFromFiles(name = filefolder[[2]],
                                          sampleNames = c("GSM1295076_CBX6_BF",
                                                          "GSM1295077_CBX7_BF"),
-                                         variablesNames = c("IPO_ratio","IPO"))
+                                         variablesNames = c("IPD_ratio","IPD"))
 
 
 txt_file <- SamepleTxtFiles()
 # test txt file
 txt_bmData <- makebmDataFromFiles(name = txt_file[[1]],
                                   sampleNames = c("GSM1295076_CBX6_BF"),
-                                  variablesNames = c("IPO_ratio","IPO"))
+                                  variablesNames = c("IPD_ratio","IPD"))
 
 ```
 
@@ -281,11 +281,11 @@ plotBaseModificationProf(df_list1,
 ![Different modifications in a figure](figures/different_modifications.png)
 
 ## visualize other information of base modification
-Base modification can produce many information including not only depth value and methylation value but also IPO value. IPO and IPD ratio are important indicators in single-molecule real-time sequencing. We can distinguish modified bases with it[@flusberg2010direct]. Visualizing IPO and IPO ratio in different motifs is a worthy attempt. 
+Base modification can produce many information including not only depth value and methylation value but also IPD value. IPD and IPD ratio are important indicators in single-molecule real-time sequencing. We can distinguish modified bases with it[@flusberg2010direct]. Visualizing IPD and IPD ratio in different motifs is a worthy attempt. 
 
-The following data is simulated from GSE62206 by assigning random IPO value and IPO ratio value to each base in GSE62206. Since the `BSseq` object can only store data of methylation(X) and read depth(N), we create a `bmData` object to hold any information of base modification.
-```{r fig.cap="Visualize IPO and IPO ration on different motifs",fig.align='center', fig.height=7, fig.width=12}
-bmData_A_thaliana <-  makebmDataFromData(data = simulated_IPO,
+The following data is simulated from GSE62206 by assigning random IPD value and IPD ratio value to each base in GSE62206. Since the `BSseq` object can only store data of methylation(X) and read depth(N), we create a `bmData` object to hold any information of base modification.
+```{r fig.cap="Visualize IPD and IPD ration on different motifs",fig.align='center', fig.height=7, fig.width=12}
+bmData_A_thaliana <-  makebmDataFromData(data = simulated_IPD,
                                          sampleNames = c("GSM1522201_WT",
                                                          "GSM1522201_ddm1"))
 
