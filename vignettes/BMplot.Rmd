@@ -181,7 +181,7 @@ human_df <- getBaseModificationDf(region = Human_dmR[1,],
                                   BSgenome = BSgenome_human,
                                   input = Human_BSobj,
                                   base = "C",
-                                  motif = c("CG"))
+                                  motif = c("CG","CHH","CHG"))
 
 head(human_df)
 ```
