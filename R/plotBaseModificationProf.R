@@ -370,6 +370,16 @@ plotBaseModificationProf.internal <- function(df,
     positive_strand_temp <- positive_strand_temp[positive_strand_temp$value != 0,]
     negative_strand_temp <- negative_strand_temp[negative_strand_temp$value != 0,]
 
+    if(nrow(positive_strand_temp) == 0){
+      positive_strand_temp <- df[1,]
+      positive_strand_temp$value <- 0
+    }
+
+    if(nrow(negative_strand_temp) == 0){
+      negative_strand_temp$coordinate <- df[1,]
+      negative_strand_temp$value <- 0
+    }
+
     ## plot the methylation information
     p <- ggplot(df)+
       geom_col(data = df[df$type==vName1,],mapping = aes(x=coordinate,y=value,fill=motif)) +
