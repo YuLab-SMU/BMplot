@@ -69,10 +69,10 @@
 ##' }
 "simulated_dmR"
 
-##' Simulated IPO data of A_thaliana
+##' Simulated IPD data of A_thaliana
 ##'
 ##' A data set contains simulated IPO information. This data set is simulated
 ##'    from GSE62206. We use two samples from GSE62206 and replace the previous value
 ##'    in GSE62206 with random IPO and IPO ratio.
 ##' see data-row/A_thaliana_IPO_data_procession.R
-"simulated_IPO"
+"simulated_IPD"
