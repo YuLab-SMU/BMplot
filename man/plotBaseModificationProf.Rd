@@ -9,6 +9,9 @@ plotBaseModificationProf(
   motif_color = NULL,
   title = NULL,
   xlim = NULL,
+  highlight_lim = NULL,
+  highlight_color = NULL,
+  highlight_alpha = 0.013,
   xlab = "Genomic Region(5'->3')",
   ylab = NULL,
   second_ylab = NULL,
@@ -43,7 +46,13 @@ plotBaseModificationProf(
 
 \item{title}{the title of the plot, can also be a list of title}
 
-\item{xlim}{the specified interval of region, must be the sub-interval of the dmR}
+\item{xlim}{the specified interval of region, must be the sub-interval of the dmR. list for list df}
+
+\item{highlight_lim}{the high light region. list for list df}
+
+\item{highlight_color}{the color of high light rectangular box}
+
+\item{highlight_alpha}{the alpha of highlight box}
 
 \item{xlab}{the x label, can also be a list of x label}
 

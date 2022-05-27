@@ -5,7 +5,10 @@
 ##' @param df the base modification dataframe
 ##' @param motif_color the color for different motifs(CHH,CHG,CG)
 ##' @param title the title of the plot, can also be a list of title
-##' @param xlim the specified interval of region, must be the sub-interval of the dmR
+##' @param xlim the specified interval of region, must be the sub-interval of the dmR. list for list df
+##' @param highlight_lim the high light region. list for list df
+##' @param highlight_color the color of high light rectangular box
+##' @param highlight_alpha the alpha of highlight box
 ##' @param xlab the x label, can also be a list of x label
 ##' @param ylab the y label, can also be a list of y label
 ##' @param second_ylab the ylab for second y-axis
@@ -39,6 +42,9 @@ plotBaseModificationProf <- function(df,
                                      motif_color = NULL,
                                      title = NULL,
                                      xlim = NULL,
+                                     highlight_lim = NULL,
+                                     highlight_color = NULL,
+                                     highlight_alpha = 0.013,
                                      xlab = "Genomic Region(5'->3')",
                                      ylab = NULL,
                                      second_ylab = NULL,
@@ -128,6 +134,20 @@ plotBaseModificationProf <- function(df,
 
     }
 
+    ## check highlight region
+    if(!is.null(highlight_lim)){
+      if(length(highlight_lim) != length(df)){
+        stop("the length of highlight_lim and the length of df are not equal...")
+      }
+    }
+
+    ## check xlim
+    if(!is.null(xlim)){
+      if(length(xlim != length(df))){
+        stop("the length of xlim and the length of df are not equal...")
+      }
+    }
+
     if(!is.null(title)){
 
       if(length(title) != length(df)){
@@ -141,7 +161,10 @@ plotBaseModificationProf <- function(df,
         p <- plotBaseModificationProf.internal(df = df[[i]],
                                                motif_color = motif_color,
                                                title = title[i],
-                                               xlim = xlim,
+                                               xlim = xlim[[i]],
+                                               highlight_lim = highlight_lim[[i]],
+                                               highlight_color = highlight_color,
+                                               highlight_alpha = highlight_alpha,
                                                xlab = xlab[i],
                                                ylab = ylab[i],
                                                second_ylab = second_ylab,
@@ -183,7 +206,10 @@ plotBaseModificationProf <- function(df,
       p <- plotBaseModificationProf.internal(df = df[[i]],
                                              motif_color = motif_color,
                                              title = title,
-                                             xlim = xlim,
+                                             xlim = xlim[[i]],
+                                             highlight_lim = highlight_lim[[i]],
+                                             highlight_color = highlight_color,
+                                             highlight_alpha = highlight_alpha,
                                              xlab = xlab[i],
                                              ylab = ylab[i],
                                              second_ylab = second_ylab,
@@ -222,6 +248,9 @@ plotBaseModificationProf <- function(df,
                                            motif_color = motif_color,
                                            title = title,
                                            xlim = xlim,
+                                           highlight_lim = highlight_lim,
+                                           highlight_color = highlight_color,
+                                           highlight_alpha = highlight_alpha,
                                            xlab = xlab,
                                            ylab = ylab,
                                            second_ylab = second_ylab,
@@ -258,6 +287,9 @@ plotBaseModificationProf.internal <- function(df,
                                               motif_color,
                                               title,
                                               xlim,
+                                              highlight_lim,
+                                              highlight_color,
+                                              highlight_alpha,
                                               xlab,
                                               ylab,
                                               second_ylab,
@@ -420,6 +452,27 @@ plotBaseModificationProf.internal <- function(df,
       labs(fill = legend_lab_motif) +
       suppressMessages(scale_y_continuous(breaks = c((-1)*value1_max, (-0.5)*value1_max, 0, (0.5)*value1_max, value1_max),
                                           labels = c(value1_max, (0.5)*value1_max, 0, (0.5)*value1_max, value1_max)))
+  }
+
+  if(!is.null(highlight_lim)){
+
+    if(is.null(highlight_color)){
+
+      # brewer.pal(12,"Set3")[8]
+      highlight_color <- "#FCCDE5"
+    }
+
+
+    if(n0 ==1){
+      p <- p + geom_rect(aes(xmin=highlight_lim[1],xmax=highlight_lim[2],
+                             ymin=-value1_max,ymax=value1_max),
+                         fill=highlight_color, alpha=highlight_alpha)
+    }else{
+      p <- p + geom_rect(aes(xmin=highlight_lim[1],xmax=highlight_lim[2],
+                             ymin=-value2_max,ymax=value2_max),
+                         fill=highlight_color, alpha=highlight_alpha)
+    }
+
   }
 
   ## facet the plot by sample
