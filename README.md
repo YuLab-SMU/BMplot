@@ -1,6 +1,6 @@
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# BMplot: Base Modification Visulization
+# BMplot: Base Modification Visualization
 
 <!-- badges: start -->
 <!-- badges: end -->
@@ -46,7 +46,7 @@ example data for users to go through BMplot.
 
 Since `BSseq` object can only hold methylation value and read depth
 value, we create a `bmData` object to store any information of base
-modification
+modification.
 
 ### Get the information of base modification
 
