@@ -177,7 +177,7 @@ getBaseModificationDf.BSseq.internal <- function(region,
   df$strand[df$strand == 0] <- "*"
 
   ## assign attributes to df
-  attr(df,"chromosome") <- paste0("Chr",gsub("chr","",region$chr,ignore.case = T))
+  attr(df,"chromosome") <- paste0("chr",gsub("chr","",region$chr,ignore.case = T))
   return(df)
 }
 
@@ -379,6 +379,6 @@ getBaseModificationDf.bmData.internal <- function(region,
 
   ## assign attributes to df
   attr(df, "data") <- "bmData"
-  attr(df,"chromosome") <- paste0("Chr",gsub("chr","",region$chr,ignore.case = T))
+  attr(df,"chromosome") <- paste0("chr",gsub("chr","",region$chr,ignore.case = T))
   return(df)
 }

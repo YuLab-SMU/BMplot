@@ -6,6 +6,7 @@
 ##' @param motif_color the color for different motifs(CHH,CHG,CG)
 ##' @param title the title of the plot, can also be a list of title
 ##' @param xlim the specified interval of region, must be the sub-interval of the dmR. list for list df
+##' @param GeneModel annotation data, can be TxDb/GRanges/GRangesList etc. Details see [Gviz::GeneRegionTrack()]
 ##' @param highlight_lim the high light region. list for list df
 ##' @param highlight_color the color of high light rectangular box
 ##' @param highlight_alpha the alpha of highlight box
@@ -42,6 +43,7 @@ plotBaseModificationProf <- function(df,
                                      motif_color = NULL,
                                      title = NULL,
                                      xlim = NULL,
+                                     GeneModel = NULL,
                                      highlight_lim = NULL,
                                      highlight_color = NULL,
                                      highlight_alpha = 0.013,
@@ -162,6 +164,7 @@ plotBaseModificationProf <- function(df,
                                                motif_color = motif_color,
                                                title = title[i],
                                                xlim = xlim[[i]],
+                                               GeneModel = GeneModel,
                                                highlight_lim = highlight_lim[[i]],
                                                highlight_color = highlight_color,
                                                highlight_alpha = highlight_alpha,
@@ -207,6 +210,7 @@ plotBaseModificationProf <- function(df,
                                              motif_color = motif_color,
                                              title = title,
                                              xlim = xlim[[i]],
+                                             GeneModel = GeneModel,
                                              highlight_lim = highlight_lim[[i]],
                                              highlight_color = highlight_color,
                                              highlight_alpha = highlight_alpha,
@@ -248,6 +252,7 @@ plotBaseModificationProf <- function(df,
                                            motif_color = motif_color,
                                            title = title,
                                            xlim = xlim,
+                                           GeneModel = GeneModel,
                                            highlight_lim = highlight_lim,
                                            highlight_color = highlight_color,
                                            highlight_alpha = highlight_alpha,
@@ -283,10 +288,20 @@ plotBaseModificationProf <- function(df,
 
 ##' @import ggplot2
 ##' @importFrom scales rescale
+##' @importFrom cowplot plot_grid
+##' @importFrom GenomicRanges GRanges
+##' @importFrom GenomicRanges seqnames
+##' @importFrom IRanges IRanges
+##' @importFrom Gviz GenomeAxisTrack
+##' @importFrom Gviz GeneRegionTrack
+##' @importFrom Gviz plotTracks
+##' @importFrom ggplotify as.ggplot
+##' @importFrom ggplotify grid2grob
 plotBaseModificationProf.internal <- function(df,
                                               motif_color,
                                               title,
                                               xlim,
+                                              GeneModel,
                                               highlight_lim,
                                               highlight_color,
                                               highlight_alpha,
@@ -544,6 +559,32 @@ plotBaseModificationProf.internal <- function(df,
   ## replace the legend
   p <- p + theme(legend.box.spacing = unit(legend_box_spacing,"cm"),
                  legend.position = legend_position)
+
+  if(!is.null(GeneModel)){
+
+    coord <- unique(df$coordinate)
+    strand <- df[!duplicated(df$coordinate),]$strand
+
+    gr <- GRanges(seqnames = attr(df,"chromosome"),
+                  ranges = IRanges(start = coord,
+                                   width = 1),
+                  strand = strand)
+    chr <- as.character(unique(seqnames(gr)))
+
+    gtrack <- GenomeAxisTrack()
+    grtrack <- GeneRegionTrack(range = GeneModel,
+                               chromosome = chr,
+                               name = "annotation")
+
+    p1 <- as.ggplot(grid2grob(plotTracks(list(gtrack,grtrack),
+                                         from = coord[1] ,
+                                         to = coord[length(coord)])))
+
+    p2 <- grid2grob(print(p))
+
+    p <- plot_grid(p2,p1,ncol = 1)
+
+  }
 
   return(p)
 }

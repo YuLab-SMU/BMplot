@@ -9,6 +9,7 @@ plotBaseModificationProf(
   motif_color = NULL,
   title = NULL,
   xlim = NULL,
+  GeneModel = NULL,
   highlight_lim = NULL,
   highlight_color = NULL,
   highlight_alpha = 0.013,
@@ -47,6 +48,8 @@ plotBaseModificationProf(
 \item{title}{the title of the plot, can also be a list of title}
 
 \item{xlim}{the specified interval of region, must be the sub-interval of the dmR. list for list df}
+
+\item{GeneModel}{annotation data, can be TxDb/GRanges/GRangesList etc. Details see \code{\link[Gviz:GeneRegionTrack-class]{Gviz::GeneRegionTrack()}}}
 
 \item{highlight_lim}{the high light region. list for list df}
 
