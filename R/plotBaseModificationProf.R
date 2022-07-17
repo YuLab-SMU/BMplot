@@ -578,11 +578,14 @@ plotBaseModificationProf.internal <- function(df,
 
     p1 <- as.ggplot(grid2grob(plotTracks(list(gtrack,grtrack),
                                          from = coord[1] ,
-                                         to = coord[length(coord)])))
+                                         to = coord[length(coord)],
+                                         showId=TRUE,shape="arrow")))
 
     p2 <- grid2grob(print(p))
 
-    p <- plot_grid(p2,p1,ncol = 1)
+    mix <- plot_grid(NULL,p1,NULL,ncol = 3,rel_widths = c(1,5,3))
+
+    p <- plot_grid(p2,mix,ncol = 1)
 
   }
 
