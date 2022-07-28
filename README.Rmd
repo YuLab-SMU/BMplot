@@ -117,7 +117,8 @@ human_df <- getBaseModificationDf(region = region,
 
 plotBaseModificationProf(human_df,
                          switch_y_value = T,
-                         GeneModel = txdb)
+                         GeneModel = txdb,
+                         highlight_lim = c(10497,11000))
 
 ```
 ![](vignettes/figures/genetrack.png)
