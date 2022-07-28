@@ -84,7 +84,42 @@ plotBaseModificationProf(thaliana_df,switch_y_value = T)
 
 ![](vignettes/figures/readme.png)
 
-## AnnotationAfter plotting the profile of base modification, users can use annotation database to annotate the region of base modification in the form of gene track. Users can input annotation database to `GeneModel` parameter, and then `BMplot` will use `ggbio` to plot the gene track according to `GeneModel` parameter. `GeneModel` can be OrganismDb object, TxDb object, EnsDb object or GrangeList object.
+## Highlight
+
+Users can use the function of highlight to emphasize the region with the
+help of `BMplot`.
+
+``` r
+plotBaseModificationProf(thaliana_df,switch_y_value = T,
+                         highlight_lim = c(5651586,5651913))
+```
+
+![](vignettes/figures/highlight.png) This highlight function can also be
+applied to list regions.
+
+``` r
+BSgenome_human <- BSgenome.Hsapiens.UCSC.hg19
+df_list <- getBaseModificationDf(region = Human_dmR[1:2,],
+                                 BSgenome = BSgenome_human,
+                                 input = Human_BSobj,
+                                 base = "C",
+                                 motif = c("CG","CHH","CHG"))
+
+plotBaseModificationProf(df_list,nrow = 1,switch_y_value = T,
+                         highlight_lim = list(c(1100262,1100463),
+                                              c(1173154,1173300)))
+```
+
+![](vignettes/figures/highlight_list.png)
+
+## Annotation
+
+After plotting the profile of base modification, users can use
+annotation database to annotate the region of base modification in the
+form of gene track. Users can input annotation database to `GeneModel`
+parameter, and then `BMplot` will use `ggbio` to plot the gene track
+according to `GeneModel` parameter. `GeneModel` can be OrganismDb
+object, TxDb object, EnsDb object or GrangeList object.
 
 ``` r
 library(TxDb.Hsapiens.UCSC.hg19.knownGene)
