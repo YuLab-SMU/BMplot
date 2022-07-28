@@ -49,7 +49,7 @@ plotBaseModificationProf(
 
 \item{xlim}{the specified interval of region, must be the sub-interval of the dmR. list for list df}
 
-\item{GeneModel}{annotation data, can be TxDb/GRanges/GRangesList etc. Details see \code{\link[Gviz:GeneRegionTrack-class]{Gviz::GeneRegionTrack()}}}
+\item{GeneModel}{annotation data, can be TxDb/GRanges/GRangesList etc. Details see \code{\link[ggbio:autoplot-method]{ggbio::autoplot()}}}
 
 \item{highlight_lim}{the high light region. list for list df}
 

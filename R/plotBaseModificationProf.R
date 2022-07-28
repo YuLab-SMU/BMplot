@@ -6,7 +6,7 @@
 ##' @param motif_color the color for different motifs(CHH,CHG,CG)
 ##' @param title the title of the plot, can also be a list of title
 ##' @param xlim the specified interval of region, must be the sub-interval of the dmR. list for list df
-##' @param GeneModel annotation data, can be TxDb/GRanges/GRangesList etc. Details see [Gviz::GeneRegionTrack()]
+##' @param GeneModel annotation data, can be TxDb/GRanges/GRangesList etc. Details see [ggbio::autoplot()]
 ##' @param highlight_lim the high light region. list for list df
 ##' @param highlight_color the color of high light rectangular box
 ##' @param highlight_alpha the alpha of highlight box
@@ -288,15 +288,15 @@ plotBaseModificationProf <- function(df,
 
 ##' @import ggplot2
 ##' @importFrom scales rescale
-##' @importFrom cowplot plot_grid
 ##' @importFrom GenomicRanges GRanges
 ##' @importFrom GenomicRanges seqnames
 ##' @importFrom IRanges IRanges
-##' @importFrom Gviz GenomeAxisTrack
-##' @importFrom Gviz GeneRegionTrack
-##' @importFrom Gviz plotTracks
 ##' @importFrom ggplotify as.ggplot
 ##' @importFrom ggplotify grid2grob
+##' @importFrom aplot xlim2
+##' @importFrom aplot insert_bottom
+##' @importFrom ggbio autoplot
+##' @importFrom magrittr %>%
 plotBaseModificationProf.internal <- function(df,
                                               motif_color,
                                               title,
@@ -569,24 +569,15 @@ plotBaseModificationProf.internal <- function(df,
                   ranges = IRanges(start = coord,
                                    width = 1),
                   strand = strand)
-    chr <- as.character(unique(seqnames(gr)))
+    genetrack <- ggbio::autoplot(object = GeneModel, which = gr)  + xlim2(p)
+    genetrack <- as.ggplot(grid2grob(print(genetrack)))
 
-    gtrack <- GenomeAxisTrack()
-    grtrack <- GeneRegionTrack(range = GeneModel,
-                               chromosome = chr,
-                               name = "annotation")
+    spacer <- ggplot() + theme_void()
+    p <- p %>%
+      insert_bottom(spacer,height = .02) %>%
+      insert_bottom(genetrack,height = .6)
 
-    p1 <- as.ggplot(grid2grob(plotTracks(list(gtrack,grtrack),
-                                         from = coord[1] ,
-                                         to = coord[length(coord)],
-                                         showId=TRUE,shape="arrow")))
-
-    p2 <- grid2grob(print(p))
-
-    mix <- plot_grid(NULL,p1,NULL,ncol = 3,rel_widths = c(1,5,3))
-
-    p <- plot_grid(p2,mix,ncol = 1)
-
+    p <- as.aaplot(p)
   }
 
   return(p)

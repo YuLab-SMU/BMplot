@@ -19,3 +19,13 @@
 
 * add in bmData object
 * update functions
+
+# BMplot 0.4.0
+
+* add function of region highlight
+
+# BMplot 0.5.0
+
+* add aaplot object 
+* overwrite print() function for applot object 
+* add function of gene track
