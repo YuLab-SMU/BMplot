@@ -84,6 +84,30 @@ plotBaseModificationProf(thaliana_df,switch_y_value = T)
 
 ![](vignettes/figures/readme.png)
 
+## AnnotationAfter plotting the profile of base modification, users can use annotation database to annotate the region of base modification in the form of gene track. Users can input annotation database to `GeneModel` parameter, and then `BMplot` will use `ggbio` to plot the gene track according to `GeneModel` parameter. `GeneModel` can be OrganismDb object, TxDb object, EnsDb object or GrangeList object.
+
+``` r
+library(TxDb.Hsapiens.UCSC.hg19.knownGene)
+library(BSgenome.Hsapiens.UCSC.hg19)
+BSgenome_human <- BSgenome.Hsapiens.UCSC.hg19
+txdb <- TxDb.Hsapiens.UCSC.hg19.knownGene
+
+region <- Human_dmR[1,]
+region <- region[,c(1:3)]
+region[1,c(2,3)] <- c(10000,25000)
+human_df <- getBaseModificationDf(region = region,
+                                  BSgenome = BSgenome_human,
+                                  input = Human_BSobj,
+                                  base = "C",
+                                  motif = c("CG","CHH","CHG"))
+
+plotBaseModificationProf(human_df,
+                         switch_y_value = T,
+                         GeneModel = txdb)
+```
+
+![](vignettes/figures/genetrack.png)
+
 ## Installation
 
 You can install the development version of BMplot from
