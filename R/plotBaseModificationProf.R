@@ -569,7 +569,11 @@ plotBaseModificationProf.internal <- function(df,
                   ranges = IRanges(start = coord,
                                    width = 1),
                   strand = strand)
-    genetrack <- ggbio::autoplot(object = GeneModel, which = gr)  + xlim2(p)
+    genetrack <- ggbio::autoplot(object = GeneModel, which = gr)  + xlim2(p) +
+      theme(panel.background = element_blank(),
+            axis.text.x = element_blank(),
+            axis.ticks.x = element_blank())
+
     genetrack <- as.ggplot(grid2grob(print(genetrack)))
 
     spacer <- ggplot() + theme_void()
