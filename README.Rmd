@@ -26,28 +26,21 @@ This package implements functions to visualize the profile of base modification 
 
 ## Introduction
 
-Epigenetics plays an important role in Biology in the way of changing genetic information without changing nucleic acids. Histone modification and Methylation are two vital mechanisms in Epigenetics. 
+Biology relies heavily on epigenetics as a method of altering genetic information without altering nucleic acids.
+  
+Many methods are used to detect the epigenetic status with the combination of sequencing and chemical methods, such as `Me‑DIP` and `oxBS‑seq` for `5mC`; `TAB-seq` and `hme‑DIP` for `5hmC`; `6mA‑DIP` and `6mA‑RE-seq` for `6mA`. Aside from these, third-generation sequencing methods, which refer to direct single-molecule sequencing, such as Oxford Nanopore Sequencing and PacBio SMRT Sequencing, can detect epigenetic status at single-base resolution. BMplot is designed to visualize single-base resolution epigenetic data by considering the strand, motif, and additional information.
 
-Many methods are used to detect the methylation in Epigenentics with the combination of sequencing and chemical methods. `Me‑DIP` and `oxBS‑seq` for `5mC`. `TAB-seq` and `hme‑DIP` for `5hmC`. `6mA‑DIP` and `6mA‑RE-seq` for `6mA`. These methods can be divided into two categories, including `Antibody enrichment techniques` for base fragments and `Single-base resolution techniques` for single base. BMplot is designed to visualize the `Single-base resolution techniques`.
+BMplot provides two functions to visualize the base modification. `getBaseModificationDf()` gets the information about base modification in each base and organizes it into a data frame. `plotBaseModificationProf()` can return an ggplot object that can be used to visualize the base modification using the data frame returned by `getBaseModificationDf()`.
 
-With the data created by the methods mentioned above, BMplot can map the data into the sequence data stored in the set of BSgenome packages and visualize it with great concern to the `strand` and `motif` information.
+## `bmData` object preparation
 
+Any regions of user intesets could be visualized in BMplot. With the data provided by users, BMplot creates the `bmData` object to store comprehensive information about base modifications in DNA or RNA. 
 
-## Workflow
+DNA methylation is one of the base modifications that plays an important role in various biological processes. As the differentially methylated regions (DMR) are most of the command intesests, here we use the data from WGBS (whole-genome bisufile sequencing) as the showcase to show how to prepare the `bmData` object in BMplot. 
 
-The BMplot provide two functions to visualize the base modification. `getBaseModificationDf()` gets the information of base modification in each base and organizes it into a data frame. `plotBaseModificationProf()` can return a ggplot object to visualize the base modification through the data frame created by `getBaseModificationDf()`.
+## Base modification information extraction.
 
-DNA Methylation is one of the base modifications. It is well worthy to investigate the different methylation region(dmR) in DNA methylayion. 
-
-### Input
-
-Any method can be used to detect dmR and create BSseq object. We use `DSS` package to achieve this goal. For better experience, We made some example data for users to go through BMplot. 
-
-Since `BSseq` object can only hold methylation value and read depth value, we create a `bmData` object to store any information of base modification.
-
-### Get the information of base modification
-
-We extracted the information from BSseq object and mapped to the sequence data stored in `BSgenome.Athaliana.TAIR.TAIR9`. Then we extracted the motif and strand information and organized it in the form of data frame. Cytosine was the interesting base to detect and the `CG, CHH and CHG` were the motifs to investigate.
+For a better experience, we made some example data for users to go through BMplot. Here, we extracted the information from the `bmData` object and mapped it to the sequence data stored in `BSgenome.Athaliana.TAIR.TAIR9` by providing the base and motif of our interest.
 
 ```{r eval=FALSE}
 library(BSgenome.Athaliana.TAIR.TAIR9)
@@ -61,10 +54,10 @@ thaliana_df <- getBaseModificationDf(region = A_thaliana_dmR,
                                      motif = c("CG","CHG","CHH"))
 ```
 
-The data frame have six columns. `coordinate` stands for the the coordinate of each base in the region. `motif` stands for the motif of the methylation. `strand` stands for the strand information of the base modification. `sample` stands for the sample name of the base modification sample. `value` stands for the coverage depth of each base or the methylation value of each base. `type` decides the category should be depth value or methylation value.
+The data frame has six columns. `coordinate` refers to the coordinates of each base in the region; `motif` refers to the motif of the methylation; `strand` refers to the strand information of the base modification; `sample` refers to the sample name of each sample; `value` refers to the coverage of each base or the methylation level of each position; `type` decides whether the category should be coverage or methylation level.
 
 
-### Visualize the base modification
+## Base modification visualization
 
 ```{r eval=FALSE}
 plotBaseModificationProf(thaliana_df,switch_y_value = T)
@@ -72,13 +65,17 @@ plotBaseModificationProf(thaliana_df,switch_y_value = T)
 
 ![](vignettes/figures/readme.png)
 
-## Highlight 
+## Additional information visualization
 
-Users can use the function of highlight to emphasize the region with the help of `BMplot`.
+### Highlight
+
+Users can use the parameter of highlight_lim to emphasize the regions in `BMplot`.
+
 ```{r eval=FALSE}
 plotBaseModificationProf(thaliana_df,switch_y_value = T,
                          highlight_lim = c(5651586,5651913))
 ```
+
 ![](vignettes/figures/highlight.png)
 This highlight function can also be applied to list regions.
 ```{r eval=FALSE}
@@ -95,9 +92,9 @@ plotBaseModificationProf(df_list,nrow = 1,switch_y_value = T,
 ```
 ![](vignettes/figures/highlight_list.png)
 
-## Annotation
+### Gene track
 
-After plotting the profile of base modification, users can use annotation database to annotate the region of base modification in the form of gene track. Users can input annotation database to `GeneModel` parameter, and then `BMplot` will use `ggbio` to plot the gene track according to `GeneModel` parameter. `GeneModel` can be OrganismDb object, TxDb object, EnsDb object or GrangeList object.
+Users can add the gene track in addition to the profile of base modification. The `GeneModel` parameter allows users to plot the gene track of a chosen database. The `ggbio` was used to plot the gene track in accordance with the `GeneModel` parameter. `GeneModel` can be an OrganismDb object, TxDb object, EnsDb object, or GrangeList object.
 
 
 ```{r eval=FALSE}
