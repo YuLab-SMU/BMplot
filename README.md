@@ -157,7 +157,6 @@ bmData_df <- getBaseModificationDf(region = A_thaliana_dmR[1,],
                                    motif = c("CG","CHH","CHG"),
                                    base = "C")
 
-png("bmdata.png",width = 1400,height = 800 )
 plotBaseModificationProf(bmData_df,switch_y_value = F,
                          ylab = "IPD(s)",second_ylab = "IPD_ratio(%)")
 ```
