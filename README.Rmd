@@ -36,7 +36,111 @@ BMplot provides two functions to visualize the base modification. `getBaseModifi
 
 Any regions of user intesets could be visualized in BMplot. With the data provided by users, BMplot creates the `bmData` object to store comprehensive information about base modifications in DNA or RNA. 
 
-DNA methylation is one of the base modifications that plays an important role in various biological processes. As the differentially methylated regions (DMR) are most of the command intesests, here we use the data from WGBS (whole-genome bisufile sequencing) as the showcase to show how to prepare the `bmData` object in BMplot. 
+DNA methylation is one of the base modifications that plays an important role in various biological processes. As the differentially methylated regions (DMR) are most of the command interests, here we use the data from WGBS (whole-genome bisufile sequencing) as the showcase to show how to prepare the `bmData` object in BMplot. 
+
+bmData object is similar to BSseq object, storing any base modification information, like IPD value[@flusberg2010direct] and so on, for the reason that BSseq object can only store information of methylation and read depth. There are three functions provided by `BMplot` including one constructor and two functions enclosing the constructor.
+
+`bmData()` is the constructor of bmData object. Users can organize the data of interest into matrix-like object. For brief, users should extract each kind of value from the combined results. For example, users may get the combined results in the form of two matrix-like objects. Each object represent one sample and contain two value, like methylation value and depth value. User should first extract the methylation value from each sample and organize all the methylation value into one matrix-like object. Then do the same thing to depth value.
+```{r eval=FALSE}
+bmData <- function(value1 = NULL, value2 = NULL,
+                   pos = NULL, chr = NULL, gr = NULL,
+                   sampleNames = NULL, valueNames = NULL,
+                   ...)
+```
+
+
+For the sake of convenience, `BMplot` provide two functions encloseing the constructor. Users can use `makebmDataFromData()` to make bmData object from data. The data should be organized in one of the `Granges`, `GrangeList`, `data.frame` and `list` structure. 
+```{r eval=FALSE}
+# simulated grange and grangelist object
+files <- getSampleFiles()
+
+gr1 <- readPeakFile(files[[4]])
+mcols(gr1)[[1]] <- runif(length(gr1))
+
+# make bmData from grange object
+dmData_grange <- makebmDataFromData(data = gr1, 
+                                    sampleNames = c("GSM1295076_CBX6_BF"))
+
+
+# make bmData from grangelist
+gr2 <- readPeakFile(files[[5]])
+mcols(gr2)[[1]] <- runif(length(gr2))
+gr_list <- GRangesList(gr1,gr2)
+
+dmData_grangelist <- makebmDataFromData(data = gr_list,
+                                        sampleNames = c("GSM1295076_CBX6_BF",
+                                                        "GSM1295077_CBX7_BF"))
+
+# make bmData from data.frame
+df <- data.frame(chr=as.character(seqnames(gr1)),pos=start(gr1),
+                 value1= mcols(gr1)[[1]], value2= mcols(gr1)[[2]])
+
+df_bmData <- makebmDataFromData(data = df, 
+                                sampleNames = c("GSM1295076_CBX6_BF"))
+
+
+# make bmData from list
+df2 <- data.frame(chr=as.character(seqnames(gr2)),pos=start(gr2),
+                  value1= mcols(gr2)[[1]], value2= mcols(gr2)[[2]])
+
+df_list <- list(df,df2)
+
+df_list_bmData <- makebmDataFromData(data = df_list,
+                                     sampleNames = c("GSM1295076_CBX6_BF",
+                                                     "GSM1295077_CBX7_BF"))
+```
+Users can also use `makebmDataFromFiles()` to make bmData object from file.
+```{r eval=FALSE}
+
+filefolder <- SampleFileFolder()
+
+# test folder with bed files
+bed_folder_bmData <- makebmDataFromFiles(name = filefolder[[1]],
+                                         sampleNames = c("GSM1295076_CBX6_BF",
+                                                         "GSM1295077_CBX7_BF"),
+                                         variablesNames = c("IPD_ratio","IPD"))
+
+bedfile <- SamepleBedFiles()
+# test bed file
+bed_bmData <- makebmDataFromFiles(name = bedfile[[1]],
+                                  sampleNames = c("GSM1295076_CBX6_BF"),
+                                  variablesNames = c("IPD_ratio","IPD"))
+
+
+# test folder with txt files
+txt_folder_bmData <- makebmDataFromFiles(name = filefolder[[2]],
+                                         sampleNames = c("GSM1295076_CBX6_BF",
+                                                         "GSM1295077_CBX7_BF"),
+                                         variablesNames = c("IPD_ratio","IPD"))
+
+
+txt_file <- SamepleTxtFiles()
+# test txt file
+txt_bmData <- makebmDataFromFiles(name = txt_file[[1]],
+                                  sampleNames = c("GSM1295076_CBX6_BF"),
+                                  variablesNames = c("IPD_ratio","IPD"))
+
+```
+
+`bmData` object can store any base modification data regardless of the size of the data. `simulated_IPO` is the simulated data packed in the BMplot.
+
+```{r eval=FALSE}
+bmData_A_thaliana <-  makebmDataFromData(data = simulated_IPO,
+                                         sampleNames = c("GSM1522201_WT",
+                                                         "GSM1522202_ddm1"))
+
+bmData_df <- getBaseModificationDf(region = A_thaliana_dmR[1,],
+                                   input = bmData_A_thaliana,
+                                   BSgenome = BSgenome.Athaliana.TAIR.TAIR9::Athaliana,
+                                   motif = c("CG","CHH","CHG"),
+                                   base = "C")
+
+png("bmdata.png",width = 1400,height = 800 )
+plotBaseModificationProf(bmData_df,switch_y_value = F,
+                         ylab = "IPD(s)",second_ylab = "IPD_ratio(%)")
+```
+![](vignettes/figures/bmdata.png)
+
 
 ## Base modification information extraction.
 
