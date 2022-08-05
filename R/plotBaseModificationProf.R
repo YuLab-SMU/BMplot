@@ -46,7 +46,7 @@ plotBaseModificationProf <- function(df,
                                      GeneModel = NULL,
                                      highlight_lim = NULL,
                                      highlight_color = NULL,
-                                     highlight_alpha = 0.013,
+                                     highlight_alpha = 0.2,
                                      xlab = "Genomic Region(5'->3')",
                                      ylab = NULL,
                                      second_ylab = NULL,
@@ -297,6 +297,7 @@ plotBaseModificationProf <- function(df,
 ##' @importFrom aplot insert_bottom
 ##' @importFrom ggbio autoplot
 ##' @importFrom magrittr %>%
+##' @importFrom gginnards move_layers
 plotBaseModificationProf.internal <- function(df,
                                               motif_color,
                                               title,
@@ -473,20 +474,32 @@ plotBaseModificationProf.internal <- function(df,
 
     if(is.null(highlight_color)){
 
-      # brewer.pal(12,"Set3")[8]
+      # highlight_color <- RColorBrewer::brewer.pal(11,"RdYlGn")[7]
       highlight_color <- "#FCCDE5"
     }
 
 
     if(n0 ==1){
-      p <- p + geom_rect(aes(xmin=highlight_lim[1],xmax=highlight_lim[2],
-                             ymin=-value1_max,ymax=value1_max),
-                         fill=highlight_color, alpha=highlight_alpha)
+      # p <- p + geom_rect(aes(xmin=highlight_lim[1],xmax=highlight_lim[2],
+      #                        ymin=-value1_max,ymax=value1_max),
+      #                    fill = highlight_color, alpha=highlight_alpha)
+      p <- p + annotate("rect",
+                        xmin=highlight_lim[1],xmax=highlight_lim[2],
+                        ymin=-value1_max,ymax=value1_max,
+                        fill = highlight_color, alpha=highlight_alpha)
+
     }else{
-      p <- p + geom_rect(aes(xmin=highlight_lim[1],xmax=highlight_lim[2],
-                             ymin=-value2_max,ymax=value2_max),
-                         fill=highlight_color, alpha=highlight_alpha)
+      # p <- p + geom_rect(aes(xmin=highlight_lim[1],xmax=highlight_lim[2],
+      #                        ymin=-value2_max,ymax=value2_max),
+      #                    fill = highlight_color, alpha=highlight_alpha)
+      p <- p + annotate("rect",
+                        xmin=highlight_lim[1],xmax=highlight_lim[2],
+                        ymin=-value2_max,ymax=value2_max,
+                        fill = highlight_color, alpha=highlight_alpha)
+
     }
+
+    p <- gginnards::move_layers(x = p,idx = 4L,position = "bottom")
 
   }
 

@@ -12,7 +12,7 @@ plotBaseModificationProf(
   GeneModel = NULL,
   highlight_lim = NULL,
   highlight_color = NULL,
-  highlight_alpha = 0.013,
+  highlight_alpha = 0.2,
   xlab = "Genomic Region(5'->3')",
   ylab = NULL,
   second_ylab = NULL,

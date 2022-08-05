@@ -24,6 +24,7 @@ Imports:
     DSS,
     GenomicRanges,
     ggbio,
+    gginnards,
     ggplot2,
     ggplotify,
     Gviz,
