@@ -35,7 +35,7 @@ make_Methylation_reference <- function(input,cover_depth){
 }
 
 
-##' @importFrom SummarizedExperiment assayNames
+#' @importFrom SummarizedExperiment assayNames
 make_reference <- function(input){
 
   ## make the  reference from bmData object
@@ -84,7 +84,7 @@ make_reference <- function(input){
 
 }
 
-##' @importFrom methods is
+#' @importFrom methods is
 loadBSgenome <- function(BSgenome){
 
   if(!is(BSgenome,"BSgenome")){
@@ -110,15 +110,15 @@ loadBSgenome <- function(BSgenome){
 
 
 
-##' @importFrom GenomicRanges GRanges
-##' @importFrom GenomicRanges findOverlaps
-##' @importFrom GenomicRanges strand
-##' @importFrom GenomicRanges strand<-
-##' @importFrom GenomicRanges mcols
-##' @importFrom GenomicRanges mcols<-
-##' @importFrom GenomicRanges start
-##' @importFrom Biostrings DNAStringSet
-##' @importFrom IRanges IRanges
+#' @importFrom GenomicRanges GRanges
+#' @importFrom GenomicRanges findOverlaps
+#' @importFrom GenomicRanges strand
+#' @importFrom GenomicRanges strand<-
+#' @importFrom GenomicRanges mcols
+#' @importFrom GenomicRanges mcols<-
+#' @importFrom GenomicRanges start
+#' @importFrom Biostrings DNAStringSet
+#' @importFrom IRanges IRanges
 detect_strand_and_motif <- function(region,
                                     motif,
                                     BSgenome,
@@ -227,9 +227,9 @@ detect_strand_and_motif <- function(region,
 }
 
 
-##' create regex patterns in positive strand
-##'
-##' @param motif the motif(e.g C:CG/CH, A:GAGG/AGG) of the base modification
+#' create regex patterns in positive strand
+#'
+#' @param motif the motif(e.g C:CG/CH, A:GAGG/AGG) of the base modification
 create_regex_patterns_positive <- function(motif){
 
   ## split the motif
@@ -318,9 +318,9 @@ create_regex_patterns_positive <- function(motif){
 }
 
 
-##' create regex patterns in negative strand
-##'
-##' @param motif the motif(e.g C:CG/CH, A:GAGG/AGG) of the base modification
+#' create regex patterns in negative strand
+#'
+#' @param motif the motif(e.g C:CG/CH, A:GAGG/AGG) of the base modification
 create_regex_patterns_negative <- function(motif){
 
   ## split the motif
@@ -423,15 +423,15 @@ create_regex_patterns_negative <- function(motif){
 }
 
 
-##' @importFrom DSS makeBSseqData
-##'
-##' @export
+#' @importFrom DSS makeBSseqData
+#'
+#' @export
 DSS::makeBSseqData
 
 
-##' @importFrom bsseq BSseq
-##'
-##' @export
+#' @importFrom bsseq BSseq
+#'
+#' @export
 bsseq::BSseq
 
 
@@ -493,22 +493,22 @@ bsseq::BSseq
 }
 
 
-##' @importFrom SummarizedExperiment assays
-##'
-##' @export
+#' @importFrom SummarizedExperiment assays
+#'
+#' @export
 SummarizedExperiment::assays
 
-##' @importFrom SummarizedExperiment assay
-##'
-##' @export
+#' @importFrom SummarizedExperiment assay
+#'
+#' @export
 SummarizedExperiment::assay
 
-##' Get the sample bed files
-##'
-##' This function overwrite the ChIPseeker::getSampleFiles().
-##' @seealso \code{\link[ChIPseeker]{getSampleFiles}}
-##'
-##' @export
+#' Get the sample bed files
+#'
+#' This function overwrite the ChIPseeker::getSampleFiles().
+#' @seealso \code{\link[ChIPseeker]{getSampleFiles}}
+#'
+#' @export
 SamepleBedFiles <- function(){
   dir <- system.file("extdata", "simulated_bed_file",package = "BMplot")
   files <- list.files(dir)
@@ -520,12 +520,12 @@ SamepleBedFiles <- function(){
   return(res)
 }
 
-##' Get the sample txt files
-##'
-##' This function overwrite the ChIPseeker::getSampleFiles().
-##' @seealso \code{\link[ChIPseeker]{getSampleFiles}}
-##'
-##' @export
+#' Get the sample txt files
+#'
+#' This function overwrite the ChIPseeker::getSampleFiles().
+#' @seealso \code{\link[ChIPseeker]{getSampleFiles}}
+#'
+#' @export
 SamepleTxtFiles <- function(){
   dir <- system.file("extdata", "simulated_txt_file",package = "BMplot")
   files <- list.files(dir)
@@ -537,9 +537,9 @@ SamepleTxtFiles <- function(){
   return(res)
 }
 
-##' get the sample file folder name
-##'
-##' @export
+#' get the sample file folder name
+#'
+#' @export
 SampleFileFolder <- function(){
   dir <- system.file("extdata",package = "BMplot")
   files <- list.files(dir)

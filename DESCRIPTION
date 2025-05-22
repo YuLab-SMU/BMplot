@@ -12,7 +12,7 @@ Description: This package implements functions to visualize the profile of
 License: Artistic-2.0
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.1.2
+RoxygenNote: 7.3.2
 Imports: 
     aplot,
     Biostrings,

@@ -1,15 +1,15 @@
-##' makebmDataFromData method for \code{CompressedGRangesList} objects
-##'
-##' @name makebmDataFromData
-##' @docType methods
-##' @rdname makebmDataFromData-methods
-##' @aliases makebmDataFromData,CompressedGRangesList-method
-##' @param data lists object
-##' @param sampleNames the name of each samples
-##' @importFrom methods setMethod
-##' @importFrom GenomicRanges seqnames
-##' @importFrom GenomicRanges start
-##' @exportMethod makebmDataFromData
+#' makebmDataFromData method for \code{CompressedGRangesList} objects
+#'
+#' @name makebmDataFromData
+#' @docType methods
+#' @rdname makebmDataFromData-methods
+#' @aliases makebmDataFromData,CompressedGRangesList-method
+#' @param data lists object
+#' @param sampleNames the name of each samples
+#' @importFrom methods setMethod
+#' @importFrom GenomicRanges seqnames
+#' @importFrom GenomicRanges start
+#' @exportMethod makebmDataFromData
 setMethod("makebmDataFromData", signature(data="CompressedGRangesList"),
           function(data,
                    sampleNames=NULL){
@@ -36,18 +36,18 @@ setMethod("makebmDataFromData", signature(data="CompressedGRangesList"),
           })
 
 
-##' makebmDataFromData method for \code{GRanges} objects
-##'
-##' @name makebmDataFromData
-##' @docType methods
-##' @rdname makebmDataFromData-methods
-##' @aliases makebmDataFromData,GRanges-method
-##' @param data lists object
-##' @param sampleNames the name of each samples
-##' @importFrom methods setMethod
-##' @importFrom GenomicRanges seqnames
-##' @importFrom GenomicRanges start
-##' @exportMethod makebmDataFromData
+#' makebmDataFromData method for \code{GRanges} objects
+#'
+#' @name makebmDataFromData
+#' @docType methods
+#' @rdname makebmDataFromData-methods
+#' @aliases makebmDataFromData,GRanges-method
+#' @param data lists object
+#' @param sampleNames the name of each samples
+#' @importFrom methods setMethod
+#' @importFrom GenomicRanges seqnames
+#' @importFrom GenomicRanges start
+#' @exportMethod makebmDataFromData
 setMethod("makebmDataFromData", signature(data="GRanges"),
           function(data,
                    sampleNames=NULL){
@@ -70,22 +70,22 @@ setMethod("makebmDataFromData", signature(data="GRanges"),
 
           })
 
-##' makebmDataFromData method for \code{list} objects
-##'
-##' @name makebmDataFromData
-##' @docType methods
-##' @rdname makebmDataFromData-methods
-##' @aliases makebmDataFromData,list-method
-##' @param data lists object
-##' @param sampleNames the name of each samples
-##' @details The objects in \code{data} must have specific forms. Colunms should be
-##'    features, which should be organized in the order of "chr", "pos", "value1",
-##'    "value2(optional)". chr stands for chromosome. pos stands for position on
-##'    chromosome, also known as coordinates. value1/2 stands for the value on each base.
-##'    The colnames can be any character but must be in the order. Rows stands for each
-##'    observation.
-##' @importFrom methods setMethod
-##' @exportMethod makebmDataFromData
+#' makebmDataFromData method for \code{list} objects
+#'
+#' @name makebmDataFromData
+#' @docType methods
+#' @rdname makebmDataFromData-methods
+#' @aliases makebmDataFromData,list-method
+#' @param data lists object
+#' @param sampleNames the name of each samples
+#' @details The objects in \code{data} must have specific forms. Colunms should be
+#'    features, which should be organized in the order of "chr", "pos", "value1",
+#'    "value2(optional)". chr stands for chromosome. pos stands for position on
+#'    chromosome, also known as coordinates. value1/2 stands for the value on each base.
+#'    The colnames can be any character but must be in the order. Rows stands for each
+#'    observation.
+#' @importFrom methods setMethod
+#' @exportMethod makebmDataFromData
 setMethod("makebmDataFromData", signature(data="list"),
           function(data,
                    sampleNames=NULL){
@@ -101,22 +101,22 @@ setMethod("makebmDataFromData", signature(data="list"),
           })
 
 
-##' makebmDataFromData method for \code{data.frame} objects
-##'
-##' @name makebmDataFromData
-##' @docType methods
-##' @rdname makebmDataFromData-methods
-##' @aliases makebmDataFromData,data.frame-method
-##' @param data lists object
-##' @param sampleNames the name of each samples
-##' @details The objects in \code{data} must have specific forms. Colunms should be
-##'    features, which should be organized in the order of "chr", "pos", "value1",
-##'    "value2(optional)". chr stands for chromosome. pos stands for position on
-##'    chromosome, also known as coordinates. value1/2 stands for the value on each base.
-##'    The colnames can be any character but must be in the order. Rows stands for each
-##'    observation.
-##' @importFrom methods setMethod
-##' @exportMethod makebmDataFromData
+#' makebmDataFromData method for \code{data.frame} objects
+#'
+#' @name makebmDataFromData
+#' @docType methods
+#' @rdname makebmDataFromData-methods
+#' @aliases makebmDataFromData,data.frame-method
+#' @param data lists object
+#' @param sampleNames the name of each samples
+#' @details The objects in \code{data} must have specific forms. Colunms should be
+#'    features, which should be organized in the order of "chr", "pos", "value1",
+#'    "value2(optional)". chr stands for chromosome. pos stands for position on
+#'    chromosome, also known as coordinates. value1/2 stands for the value on each base.
+#'    The colnames can be any character but must be in the order. Rows stands for each
+#'    observation.
+#' @importFrom methods setMethod
+#' @exportMethod makebmDataFromData
 setMethod("makebmDataFromData", signature(data="data.frame"),
           function(data,
                    sampleNames=NULL){
@@ -134,21 +134,21 @@ setMethod("makebmDataFromData", signature(data="data.frame"),
           })
 
 
-##' make dmData object from data
-##'
-##' @title makebmDataFromData.internal
-##' @rdname makebmDataFromData
-##' @param data lists object
-##' @param sampleNames the name of each samples
-##' @details This internal function was inspired by DSS::makeBSseqData.
-##'
-##'    The objects in \code{data} must have specific forms. Colunms should be
-##'    features, which should be organized in the order of "chr", "pos", "value1",
-##'    "value2(optional)". chr stands for chromosome. pos stands for position on
-##'    chromosome, also known as coordinates. value1/2 stands for the value on each base.
-##'    The colnames can be any character but must be in the order. Rows stands for each
-##'    observation.
-##' @return dmData object
+#' make dmData object from data
+#'
+#' @title makebmDataFromData.internal
+#' @rdname makebmDataFromData
+#' @param data lists object
+#' @param sampleNames the name of each samples
+#' @details This internal function was inspired by DSS::makeBSseqData.
+#'
+#'    The objects in \code{data} must have specific forms. Colunms should be
+#'    features, which should be organized in the order of "chr", "pos", "value1",
+#'    "value2(optional)". chr stands for chromosome. pos stands for position on
+#'    chromosome, also known as coordinates. value1/2 stands for the value on each base.
+#'    The colnames can be any character but must be in the order. Rows stands for each
+#'    observation.
+#' @return dmData object
 makebmDataFromData.internal <- function(data,
                                         sampleNames=NULL){
 
@@ -174,7 +174,7 @@ makebmDataFromData.internal <- function(data,
 }
 
 
-##' @importFrom dplyr arrange
+#' @importFrom dplyr arrange
 make_bmData_from_value1 <- function(data, sampleNames){
 
   n0 <- length(data)
@@ -206,7 +206,7 @@ make_bmData_from_value1 <- function(data, sampleNames){
 
 }
 
-##' @importFrom dplyr arrange
+#' @importFrom dplyr arrange
 make_bmData_from_value1_and_value2 <- function(data, sampleNames){
 
   n0 <- length(data)
@@ -255,20 +255,20 @@ make_bmData_from_value1_and_value2 <- function(data, sampleNames){
 
 
 ##‘ make bmData from files
-##'
-##' This function makes bmData object from files. Users can input
-##' the name of a file or a file folder.
-##'
-##' @name makebmDataFromFiles
-##' @param name the name of files or file folder
-##' @param sampleNames the name for each file
-##' @param variablesNames the names of the first two columns will be assigned c("chr","pos"),
-##'     the names of the following columns will be assigned by variablesNames
-##' @importFrom utils file_test
-##' @details bed files and txt files are supported. Bed files can
-##'    only contain no more than two metadata, as it stands for value1/2. Txt files
-##'    should organize the columns as chr, pos, value1, value2(optional).
-##' @export
+#'
+#' This function makes bmData object from files. Users can input
+#' the name of a file or a file folder.
+#'
+#' @name makebmDataFromFiles
+#' @param name the name of files or file folder
+#' @param sampleNames the name for each file
+#' @param variablesNames the names of the first two columns will be assigned c("chr","pos"),
+#'     the names of the following columns will be assigned by variablesNames
+#' @importFrom utils file_test
+#' @details bed files and txt files are supported. Bed files can
+#'    only contain no more than two metadata, as it stands for value1/2. Txt files
+#'    should organize the columns as chr, pos, value1, value2(optional).
+#' @export
 makebmDataFromFiles <- function(name,
                                 sampleNames = NULL,
                                 variablesNames = NULL){
@@ -293,11 +293,11 @@ makebmDataFromFiles <- function(name,
 }
 
 
-##' @importFrom ChIPseeker readPeakFile
-##' @importFrom GenomicRanges mcols
-##' @importFrom GenomicRanges GRangesList
-##' @importFrom data.table fread
-##' @importFrom utils getFromNamespace
+#' @importFrom ChIPseeker readPeakFile
+#' @importFrom GenomicRanges mcols
+#' @importFrom GenomicRanges GRangesList
+#' @importFrom data.table fread
+#' @importFrom utils getFromNamespace
 makebmDataFromFiles.folder <- function(name, variablesNames){
 
   ## check the file type
@@ -360,9 +360,9 @@ makebmDataFromFiles.folder <- function(name, variablesNames){
 }
 
 
-##' @importFrom ChIPseeker readPeakFile
-##' @importFrom GenomicRanges mcols
-##' @importFrom data.table fread
+#' @importFrom ChIPseeker readPeakFile
+#' @importFrom GenomicRanges mcols
+#' @importFrom data.table fread
 makebmDataFromFiles.file <- function(name, variablesNames){
 
   if(is.null(variablesNames)){

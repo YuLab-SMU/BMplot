@@ -1,11 +1,11 @@
-##' getBaseModificationDf methods generics
-##'
-##'
-##' @docType methods
-##' @name getBaseModificationDf
-##' @rdname getBaseModificationDf-methods
-##' @importFrom methods setGeneric
-##' @export
+#' getBaseModificationDf methods generics
+#'
+#'
+#' @docType methods
+#' @name getBaseModificationDf
+#' @rdname getBaseModificationDf-methods
+#' @importFrom methods setGeneric
+#' @export
 setGeneric("getBaseModificationDf",
            function(region,
                     input,
@@ -19,14 +19,14 @@ setGeneric("getBaseModificationDf",
 
            })
 
-##' makebmDataFromData method generics
-##'
-##'
-##' @docType methods
-##' @name makebmDataFromData
-##' @rdname makebmDataFromData-methods
-##' @importFrom methods setGeneric
-##' @export
+#' makebmDataFromData method generics
+#'
+#'
+#' @docType methods
+#' @name makebmDataFromData
+#' @rdname makebmDataFromData-methods
+#' @importFrom methods setGeneric
+#' @export
 setGeneric("makebmDataFromData", function(data,
                                           sampleNames=NULL){
   standardGeneric("makebmDataFromData")

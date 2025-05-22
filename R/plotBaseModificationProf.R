@@ -1,44 +1,44 @@
-##' plot base modification profile
-##'
-##'
-##' @title plotBaseModificationProf
-##' @param df the base modification dataframe
-##' @param motif_color the color for different motifs(CHH,CHG,CG)
-##' @param title the title of the plot, can also be a list of title
-##' @param xlim the specified interval of region, must be the sub-interval of the dmR. list for list df
-##' @param GeneModel annotation data, can be TxDb/GRanges/GRangesList etc. Details see [ggbio::autoplot()]
-##' @param highlight_lim the high light region. list for list df
-##' @param highlight_color the color of high light rectangular box
-##' @param highlight_alpha the alpha of highlight box
-##' @param xlab the x label, can also be a list of x label
-##' @param ylab the y label, can also be a list of y label
-##' @param second_ylab the ylab for second y-axis
-##' @param switch_y_value switch the value from left y-axis to right y-axis
-##' @param legend_lab_motif the label of legend for motif
-##' @param legend_lab_value2 the label of legend for the second value(ylab is the label for the first value)
-##' @param switch_facet_label switch the facet label from right to left or not
-##' @param strip_placement strip.placement
-##' @param angle_of_facet_label the angle of facet label, e.g. 0 is horizontal
-##' @param alpha transparency for the depth information line
-##' @param y_ticks_length the length of y-axis ticks
-##' @param x_ticks_length the length of x-axis ticks
-##' @param strip_border add border to the facet label or not
-##' @param facet_label_text_size the size of facet label text
-##' @param axis_title_text_size the size of axis title text
-##' @param title_text_size the size of the title text
-##' @param right_y_axis_text_size the size of the left y axis text,this work when depth information is taken into account
-##' @param left_y_axis_text_size the size of the left y axis text
-##' @param x_axis_text_size the size of x axis text
-##' @param depth_heatmap draw the heatmap of depth information or not
-##' @param nrow the nrow of plotting a list of dmR
-##' @param ncol the ncol of plotting a list of dmR
-##' @param panel_spacing the distance between panels
-##' @param legend_box_spacing the distance between legend and plotting area,"cm"
-##' @param legend_position the position of legend
-##' @return ggplot object
-##' @importFrom aplot plot_list
-##' @importFrom methods is
-##' @export
+#' plot base modification profile
+#'
+#'
+#' @title plotBaseModificationProf
+#' @param df the base modification dataframe
+#' @param motif_color the color for different motifs(CHH,CHG,CG)
+#' @param title the title of the plot, can also be a list of title
+#' @param xlim the specified interval of region, must be the sub-interval of the dmR. list for list df
+#' @param GeneModel annotation data, can be TxDb/GRanges/GRangesList etc. Details see [ggbio::autoplot()]
+#' @param highlight_lim the high light region. list for list df
+#' @param highlight_color the color of high light rectangular box
+#' @param highlight_alpha the alpha of highlight box
+#' @param xlab the x label, can also be a list of x label
+#' @param ylab the y label, can also be a list of y label
+#' @param second_ylab the ylab for second y-axis
+#' @param switch_y_value switch the value from left y-axis to right y-axis
+#' @param legend_lab_motif the label of legend for motif
+#' @param legend_lab_value2 the label of legend for the second value(ylab is the label for the first value)
+#' @param switch_facet_label switch the facet label from right to left or not
+#' @param strip_placement strip.placement
+#' @param angle_of_facet_label the angle of facet label, e.g. 0 is horizontal
+#' @param alpha transparency for the depth information line
+#' @param y_ticks_length the length of y-axis ticks
+#' @param x_ticks_length the length of x-axis ticks
+#' @param strip_border add border to the facet label or not
+#' @param facet_label_text_size the size of facet label text
+#' @param axis_title_text_size the size of axis title text
+#' @param title_text_size the size of the title text
+#' @param right_y_axis_text_size the size of the left y axis text,this work when depth information is taken into account
+#' @param left_y_axis_text_size the size of the left y axis text
+#' @param x_axis_text_size the size of x axis text
+#' @param depth_heatmap draw the heatmap of depth information or not
+#' @param nrow the nrow of plotting a list of dmR
+#' @param ncol the ncol of plotting a list of dmR
+#' @param panel_spacing the distance between panels
+#' @param legend_box_spacing the distance between legend and plotting area,"cm"
+#' @param legend_position the position of legend
+#' @return ggplot object
+#' @importFrom aplot plot_list
+#' @importFrom methods is
+#' @export
 plotBaseModificationProf <- function(df,
                                      motif_color = NULL,
                                      title = NULL,
@@ -286,18 +286,18 @@ plotBaseModificationProf <- function(df,
 }
 
 
-##' @import ggplot2
-##' @importFrom scales rescale
-##' @importFrom GenomicRanges GRanges
-##' @importFrom GenomicRanges seqnames
-##' @importFrom IRanges IRanges
-##' @importFrom ggplotify as.ggplot
-##' @importFrom ggplotify grid2grob
-##' @importFrom aplot xlim2
-##' @importFrom aplot insert_bottom
-##' @importFrom ggbio autoplot
-##' @importFrom magrittr %>%
-##' @importFrom gginnards move_layers
+#' @import ggplot2
+#' @importFrom scales rescale
+#' @importFrom GenomicRanges GRanges
+#' @importFrom GenomicRanges seqnames
+#' @importFrom IRanges IRanges
+#' @importFrom ggplotify as.ggplot
+#' @importFrom ggplotify grid2grob
+#' @importFrom aplot xlim2
+#' @importFrom aplot insert_bottom
+#' @importFrom ggbio autoplot
+#' @importFrom magrittr %>%
+#' @importFrom gginnards move_layers
 plotBaseModificationProf.internal <- function(df,
                                               motif_color,
                                               title,

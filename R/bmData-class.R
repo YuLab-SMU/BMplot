@@ -1,24 +1,24 @@
-##' Constructor for bmData objects
-##'
-##' This is constructor fo bmData objects.
-##'
-##' @param value1 the first value to be stored, a matrix-like object
-##' @param value2 the second value to be stored, a matrix-like object
-##' @param pos A vector of locations
-##' @param chr A vector of chromosomes
-##' @param gr An object of type \linkS4class{GRanges}
-##' @param sampleNames A vector of sample names
-##' @param valueNames the name of value1 or value2 or both. The order maps to the value.
-##' @param ... other parameters from \code{\link[bsseq]{BSseq}}
-##' @importFrom bsseq BSseq
-##' @importFrom bsseq pData
-##' @importFrom SummarizedExperiment assays<-
-##' @importFrom SummarizedExperiment assays
-##' @importFrom SummarizedExperiment SummarizedExperiment
-##' @importFrom GenomicRanges granges
-##' @importFrom methods new
-##' @importFrom S4Vectors SimpleList
-##' @export
+#' Constructor for bmData objects
+#'
+#' This is constructor fo bmData objects.
+#'
+#' @param value1 the first value to be stored, a matrix-like object
+#' @param value2 the second value to be stored, a matrix-like object
+#' @param pos A vector of locations
+#' @param chr A vector of chromosomes
+#' @param gr An object of type \linkS4class{GRanges}
+#' @param sampleNames A vector of sample names
+#' @param valueNames the name of value1 or value2 or both. The order maps to the value.
+#' @param ... other parameters from \code{\link[bsseq]{BSseq}}
+#' @importFrom bsseq BSseq
+#' @importFrom bsseq pData
+#' @importFrom SummarizedExperiment assays<-
+#' @importFrom SummarizedExperiment assays
+#' @importFrom SummarizedExperiment SummarizedExperiment
+#' @importFrom GenomicRanges granges
+#' @importFrom methods new
+#' @importFrom S4Vectors SimpleList
+#' @export
 bmData <- function(value1 = NULL, value2 = NULL,
                    pos = NULL, chr = NULL, gr = NULL,
                    sampleNames = NULL, valueNames = NULL,
@@ -135,22 +135,22 @@ bmData <- function(value1 = NULL, value2 = NULL,
 }
 
 
-##' getBaseModificationDf method for \linkS4class{bmData}
-##'
-##' @docType methods
-##' @rdname getBaseModificationDf-methods
-##' @title getBaseModificationDf method
-##' @param region base modification region in the form of dataframe, having columns of "chr","start" and "end"
-##' @param input the input data stored in BSseq objects or BSseqExtra objects
-##' @param BSgenome genome reference
-##' @param base one of A/T/G/C/U
-##' @param motif the motif(e.g C:CG/CH, A:GAGG/AGG) of the base modification
-##' @param position_bias 1-base bias. e.g position_bias = 1("C" in "CHH"), position_bias = 2("A" in "GAGG")
-##' @param ... other parameters
-##' @aliases getBaseModificationDf, bmData-methods
-##' @return dataframe
-##' @importFrom methods setMethod
-##' @exportMethod getBaseModificationDf
+#' getBaseModificationDf method for \linkS4class{bmData}
+#'
+#' @docType methods
+#' @rdname getBaseModificationDf-methods
+#' @title getBaseModificationDf method
+#' @param region base modification region in the form of dataframe, having columns of "chr","start" and "end"
+#' @param input the input data stored in BSseq objects or BSseqExtra objects
+#' @param BSgenome genome reference
+#' @param base one of A/T/G/C/U
+#' @param motif the motif(e.g C:CG/CH, A:GAGG/AGG) of the base modification
+#' @param position_bias 1-base bias. e.g position_bias = 1("C" in "CHH"), position_bias = 2("A" in "GAGG")
+#' @param ... other parameters
+#' @aliases getBaseModificationDf, bmData-methods
+#' @return dataframe
+#' @importFrom methods setMethod
+#' @exportMethod getBaseModificationDf
 setMethod("getBaseModificationDf",signature(input = "bmData"),
           function(region,
                    input,
